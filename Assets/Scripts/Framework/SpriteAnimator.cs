@@ -16,7 +16,7 @@ namespace Framework
         public const float DefaultIntervalTime = 0.03f;
         public const bool DefaultLoop = false;
 
-        private Dictionary<string, SpriteAnimation> _allAnimations = new Dictionary<string, SpriteAnimation>();
+        private Dictionary<string, SpriteAnimation> _allAnimations = new();
         private Coroutine _currentAnimCoroutine;
 
         public void AddAnimation(string name,

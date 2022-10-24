@@ -29,10 +29,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 49ec157cc5cdc4d4299cef71f5a1a33b, type: 3}
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 957ae0000698ead41b7b0f57314c9077, type: 3}
@@ -6884,6 +6888,7 @@ SpriteAtlas:
   - tapeworm_attack0024
   - walker_death0010
   - eldritch_move0004
+  m_RenderDataMap: {}
   m_Tag: Enemy
   m_IsVariant: 0
   m_IsPlaceholder: 0
