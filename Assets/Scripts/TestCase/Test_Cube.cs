@@ -17,8 +17,9 @@ public class Test_Cube : MonoBehaviour
         }
     }
 
-    private void OnDamaged(float damage)
+    private void OnDamaged(float damage, Vector3 hitPoint, Vector3 hitNormal)
     {
         this.PrintLog($"{nameof(OnDamaged)}", $"{nameof(damage)}: {damage}");
+        AppliqueManager.Instance.SpawnApplique(transform, hitPoint, hitNormal);
     }
 }

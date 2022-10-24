@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerInputSystem : MonoBehaviour
+public class PlayerInputSystem : MonoSingleton<PlayerInputSystem>
 {
     public float MouseAxisX { get; private set; }
     public float MouseAxisY { get; private set; }

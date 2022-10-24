@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerInputSystem InputSystem;
     public Transform PlayerCameraTsf;
     private Transform _selfTsf;
     public float Speed;
@@ -15,9 +14,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        InputSystem.SetCurrentMouseCursorLockMode(CursorLockMode.Locked);
-        InputSystem.FireAction += OnFire;
-        InputSystem.SecondaryFireAction += SecondaryFire;
+        var inputSystem = PlayerInputSystem.Instance;
+        inputSystem.SetCurrentMouseCursorLockMode(CursorLockMode.Locked);
+        inputSystem.FireAction += OnFire;
+        inputSystem.SecondaryFireAction += SecondaryFire;
         PlayerCameraTsf.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
@@ -40,14 +40,14 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovementInput()
     {
-        var dir = Speed * Time.deltaTime * InputSystem.MovementDirection;
+        var dir = Speed * Time.deltaTime * PlayerInputSystem.Instance.MovementDirection;
         _selfTsf.Translate(new Vector3(dir.x, 0, dir.y), Space.Self);
     }
     public void HandleMouseAxisInput()
     {
-        _cameraRotation = Mathf.Clamp(_cameraRotation - InputSystem.MouseAxisY, -90, 90);
+        _cameraRotation = Mathf.Clamp(_cameraRotation - PlayerInputSystem.Instance.MouseAxisY, -90, 90);
         PlayerCameraTsf.localRotation = Quaternion.Euler(_cameraRotation, 0, 0);
 
-        _selfTsf.Rotate(new Vector3(0, InputSystem.MouseAxisX, 0), Space.Self);
+        _selfTsf.Rotate(new Vector3(0, PlayerInputSystem.Instance.MouseAxisX, 0), Space.Self);
     }
 }

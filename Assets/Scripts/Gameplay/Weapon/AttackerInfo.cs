@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackerInfo
+public class AttackInfo
 {
     public bool MultiRayCast { get; set; }
     public float MaxDistance { get; set; }
-    public float DamagePoint { get; internal set; }
+    public float DamagePoint { get; set; }
+    public Vector3 HitPoint { get; set; }
+    public Vector3 HitNormal { get; set; }
 
-    public static void SendAttackInfoToTarger(Component target, AttackerInfo attackInfo)
+
+    public static void SendAttackInfoToTarger(Component target, AttackInfo attackInfo, Vector3 hitPoint, Vector3 hitNormal)
     {
         if (target.TryGetComponent<InjuredInfo>(out var injured))
         {
-            injured.OnBeingAttacked(attackInfo);
+            injured.OnBeingAttacked(attackInfo, hitPoint, hitNormal);
         }
     }
 }

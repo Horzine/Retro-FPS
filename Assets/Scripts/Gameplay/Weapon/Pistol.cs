@@ -27,13 +27,13 @@ public class Pistol : MonoBehaviour
         _spriteAniamtion.AddAnimation(FireAnimName, FireAnim, render, OnFireAnimEndCallback);
         _spriteAniamtion.AddAnimation(IdleAnimName, IdleAnim, render, OnFireAnimEndCallback);
 
-        InputSystem.FireAction += OnInputFireAction;
+        PlayerInputSystem.Instance.FireAction += OnInputFireAction;
 
         _spriteAniamtion.PlayAnimation(IdleAnimName);
     }
     private void OnDestroy()
     {
-        InputSystem.FireAction -= OnInputFireAction;
+        PlayerInputSystem.Instance.FireAction -= OnInputFireAction;
     }
 
     private void OnInputFireAction()
@@ -51,27 +51,27 @@ public class Pistol : MonoBehaviour
     {
         if (Time.realtimeSinceStartup >= _nextEnableFireTime)
         {
-            FireRayCastToTarget(new AttackerInfo { DamagePoint = 100, MaxDistance = 10, MultiRayCast = false });
+            FireRayCastToTarget(new AttackInfo { DamagePoint = 100, MaxDistance = 10, MultiRayCast = false });
             _nextEnableFireTime = Time.realtimeSinceStartup + _fireIntervalTime;
         }
     }
 
-    public void FireRayCastToTarget(AttackerInfo attackInfo)
+    public void FireRayCastToTarget(AttackInfo attackInfo)
     {
         var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (attackInfo.MultiRayCast)
         {
-            if (Physics.Raycast(cameraRay, out var hitInfo, attackInfo.MaxDistance))
+            var result = Physics.RaycastAll(cameraRay, attackInfo.MaxDistance);
+            foreach (var item in result)
             {
-                AttackerInfo.SendAttackInfoToTarger(hitInfo.collider, attackInfo);
+                AttackInfo.SendAttackInfoToTarger(item.collider, attackInfo, item.point, item.normal);
             }
         }
         else
         {
-            var result = Physics.RaycastAll(cameraRay, attackInfo.MaxDistance);
-            foreach (var item in result)
+            if (Physics.Raycast(cameraRay, out var hitInfo, attackInfo.MaxDistance))
             {
-                AttackerInfo.SendAttackInfoToTarger(item.collider, attackInfo);
+                AttackInfo.SendAttackInfoToTarger(hitInfo.collider, attackInfo, hitInfo.point, hitInfo.normal);
             }
         }
     }

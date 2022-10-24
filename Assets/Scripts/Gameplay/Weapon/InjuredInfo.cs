@@ -4,23 +4,12 @@ using UnityEngine;
 
 public class InjuredInfo : MonoBehaviour
 {
-    private readonly List<AttackerInfo> _cachedAttackInfo = new();
-    public event Action<float> OnDamaged;
+    public event Action<float, Vector3, Vector3> OnDamaged;
 
-    void Update()
-    {
-        if (_cachedAttackInfo.Count > 0)
-        {
-            float combineDamage = 0;
-            _cachedAttackInfo.ForEach(atk => combineDamage += atk.DamagePoint);
-            OnDamaged?.Invoke(combineDamage);
-            _cachedAttackInfo.Clear();
-        }
-    }
 
-    public void OnBeingAttacked(AttackerInfo attackInfo)
+    public void OnBeingAttacked(AttackInfo attackInfo, Vector3 hitPoint, Vector3 hitNormal)
     {
-        _cachedAttackInfo.Add(attackInfo);
+        OnDamaged?.Invoke(attackInfo.DamagePoint, hitPoint, hitNormal);
     }
 
 }
