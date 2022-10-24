@@ -17,6 +17,8 @@ public class PlayerInputSystem : MonoBehaviour
         HandleFireInput();
 
         HandleMoveDirectionInput();
+
+        HandleMouseChange();
     }
 
     private void HandleMouseInput()
@@ -58,5 +60,19 @@ public class PlayerInputSystem : MonoBehaviour
             MovementDirection += Vector2.right;
         }
         MovementDirection.Normalize();
+    }
+
+    private void HandleMouseChange()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            var cursorLockMode = Cursor.lockState;
+            Cursor.lockState = cursorLockMode == CursorLockMode.None ? CursorLockMode.Locked : CursorLockMode.None;
+        }
+    }
+
+    public void SetCurrentMouseCursorLockMode(CursorLockMode mode)
+    {
+        Cursor.lockState = mode;
     }
 }

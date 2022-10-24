@@ -15,8 +15,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        InputSystem.SetCurrentMouseCursorLockMode(CursorLockMode.Locked);
         InputSystem.FireAction += OnFire;
         InputSystem.SecondaryFireAction += SecondaryFire;
+        PlayerCameraTsf.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void OnFire()
