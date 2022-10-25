@@ -1,41 +1,32 @@
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "WeaponData_", menuName = "ScriptableObjects/WeaponData", order = 1)]
-public class WeaponData : ScriptableObject
+public class WeaponData
 {
-    public enum BulletTypeEnum
+    public int CurrentMagzineAmmo { get; private set; }
+    public int CurrentBackupAmmo { get; private set; }
+    private WeaponConfig _config;
+    public void BindConfig(WeaponConfig config)
     {
-        RayScan = 0,
-        Projectile = 1,
-    }
-    public string WeaponName;
-    public int DamagePoint;
-    public int MaxBackupAmmo;
-    public int CurrentBackupAmmo;
-    public int MaxMagzineAmmo;
-    public int CurrentMagzineAmmo;
-    public int AmmoUsePerFire = 1;
-    public BulletTypeEnum BulletType;
-    public string BulletProjectileName;
-    public float BulletMaxDistance;
-    public float FireRoundsPerMinute = 1;
-    public float ReloadSpeedMultiple = 1;
-    public Sprite[] IdleAnim;
-    public Sprite[] FireAnim;
-    public Sprite[] ReloadAnim;
+        _config = config;
 
-    public float FireIntervalTime => 60 / FireRoundsPerMinute;
-    public bool HasSelfReloadAnim => ReloadAnim != null && ReloadAnim.Length > 0;
-    public bool CanReload => !(CurrentMagzineAmmo == MaxMagzineAmmo || CurrentBackupAmmo == 0);
+        Init();
+    }
+
+    private void Init()
+    {
+        CurrentMagzineAmmo = _config.MaxMagzineAmmo;
+        CurrentBackupAmmo = _config.MaxBackupAmmo;
+    }
+
+    public bool CanReload => !(CurrentMagzineAmmo == _config.MaxMagzineAmmo || CurrentBackupAmmo == 0);
+
     public void ReloadAmmunition()
     {
         if (CanReload)
         {
             var total = CurrentMagzineAmmo + CurrentBackupAmmo;
-            if (total >= MaxMagzineAmmo)
+            if (total >= _config.MaxMagzineAmmo)
             {
-                CurrentMagzineAmmo = MaxMagzineAmmo;
-                CurrentBackupAmmo = total - MaxMagzineAmmo;
+                CurrentMagzineAmmo = _config.MaxMagzineAmmo;
+                CurrentBackupAmmo = total - _config.MaxMagzineAmmo;
             }
             else
             {
@@ -44,12 +35,14 @@ public class WeaponData : ScriptableObject
             }
         }
     }
-    public bool CanFire => CurrentMagzineAmmo >= AmmoUsePerFire;
+
+    public bool CanFire => CurrentMagzineAmmo >= _config.AmmoUsePerFire;
+
     public void Fire()
     {
         if (CanFire)
         {
-            CurrentMagzineAmmo -= AmmoUsePerFire;
+            CurrentMagzineAmmo -= _config.AmmoUsePerFire;
         }
     }
 }

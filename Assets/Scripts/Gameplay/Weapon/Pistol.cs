@@ -3,19 +3,23 @@ using UnityEngine;
 
 public class Pistol : MonoBehaviour
 {
-    [SerializeField] private WeaponData _data;
+    [SerializeField] private WeaponConfig _config;
+    private WeaponData _data;
     private SpriteAnimator _spriteAniamtion;
     private float _nextEnableFireTime;
     private float _nextEnableReloadTime;
     private Camera _mainCamera;
 
-    private const string FireAnimName = nameof(WeaponData.FireAnim);
-    private const string IdleAnimName = nameof(WeaponData.IdleAnim);
-    private const string ReloadAnimName = nameof(WeaponData.ReloadAnim);
+    private const string FireAnimName = nameof(WeaponConfig.FireAnim);
+    private const string IdleAnimName = nameof(WeaponConfig.IdleAnim);
+    private const string ReloadAnimName = nameof(WeaponConfig.ReloadAnim);
 
 
     private void Awake()
     {
+        _data = new();
+        _data.BindConfig(_config);
+
         _nextEnableFireTime = Time.realtimeSinceStartup;
         _nextEnableReloadTime = Time.realtimeSinceStartup;
     }
@@ -26,11 +30,11 @@ public class Pistol : MonoBehaviour
 
         _spriteAniamtion = GetComponent<SpriteAnimator>();
         var renderer = GetComponent<SpriteRenderer>();
-        _spriteAniamtion.AddAnimation(FireAnimName, _data.FireAnim, renderer, OnFireAnimEndCallback);
-        _spriteAniamtion.AddAnimation(IdleAnimName, _data.IdleAnim, renderer, OnFireAnimEndCallback);
+        _spriteAniamtion.AddAnimation(FireAnimName, _config.FireAnim, renderer, OnFireAnimEndCallback);
+        _spriteAniamtion.AddAnimation(IdleAnimName, _config.IdleAnim, renderer, OnFireAnimEndCallback);
         if (HasSelfReloadAnim)
         {
-            _spriteAniamtion.AddAnimation(ReloadAnimName, _data.ReloadAnim, renderer, OnFireAnimEndCallback);
+            _spriteAniamtion.AddAnimation(ReloadAnimName, _config.ReloadAnim, renderer, OnFireAnimEndCallback);
         }
 
         PlayerInputSystem.Instance.FireAction += OnInputFireAction;
@@ -47,8 +51,8 @@ public class Pistol : MonoBehaviour
         if (CanFire)
         {
             _data.Fire();
-            FireRayCastToTarget(new AttackInfo { DamagePoint = _data.DamagePoint, MaxDistance = _data.BulletMaxDistance, MultiRayCast = false });
-            _nextEnableFireTime = Time.realtimeSinceStartup + _data.FireIntervalTime;
+            FireRayCastToTarget(new AttackInfo { DamagePoint = _config.DamagePoint, MaxDistance = _config.BulletMaxDistance, MultiRayCast = false });
+            _nextEnableFireTime = Time.realtimeSinceStartup + _config.FireIntervalTime;
             _spriteAniamtion.PlayAnimation(FireAnimName);
         }
     }
@@ -81,7 +85,7 @@ public class Pistol : MonoBehaviour
     public void Reload()
     {
         _data.ReloadAmmunition();
-        _nextEnableReloadTime = Time.realtimeSinceStartup + WeaponController.BasicReloadTime * _data.ReloadSpeedMultiple;
+        _nextEnableReloadTime = Time.realtimeSinceStartup + WeaponController.BasicReloadTime * _config.ReloadSpeedMultiple;
         if (HasSelfReloadAnim)
         {
             _spriteAniamtion.PlayAnimation(ReloadAnimName);
@@ -90,7 +94,7 @@ public class Pistol : MonoBehaviour
 
     public bool CanReload => _data.CanReload && Time.realtimeSinceStartup >= _nextEnableReloadTime;
 
-    public bool HasSelfReloadAnim => _data.HasSelfReloadAnim;
+    public bool HasSelfReloadAnim => _config.HasSelfReloadAnim;
 
     public bool CanFire => _data.CanFire && Time.realtimeSinceStartup >= _nextEnableFireTime;
 }
