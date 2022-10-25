@@ -4,7 +4,7 @@ public class AttackInfo
 {
     public bool MultiRayCast { get; set; }
     public float MaxDistance { get; set; }
-    public float DamagePoint { get; set; }
+    public int DamagePoint { get; set; }
     public Vector3 HitPoint { get; set; }
     public Vector3 HitNormal { get; set; }
 

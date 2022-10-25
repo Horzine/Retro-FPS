@@ -346,30 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862db31e9ef5e5b40a875f4c4217707c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireAnim:
-  - {fileID: 21300000, guid: 1d3dc3ca606388c4085765d2324d901a, type: 3}
-  - {fileID: 21300000, guid: 95020150bbc872444b1b337ace909b87, type: 3}
-  - {fileID: 21300000, guid: f187348afdde6e74b9cc907a54f0389c, type: 3}
-  - {fileID: 21300000, guid: ca4bafb14b6559d49b2fb4f130c496a1, type: 3}
-  - {fileID: 21300000, guid: 878c5de9a38956c418575562a6567b2b, type: 3}
-  IdleAnim:
-  - {fileID: 21300000, guid: 1d3dc3ca606388c4085765d2324d901a, type: 3}
-  ReloadAnim:
-  - {fileID: 21300000, guid: 63e6c5d824836d342873e83e7762f382, type: 3}
-  - {fileID: 21300000, guid: 90e935df2ebfa944fa30d86e830fed6e, type: 3}
-  - {fileID: 21300000, guid: d78135fb9644c134fab2d91d48db6b47, type: 3}
-  - {fileID: 21300000, guid: 3ce3fbb579fb4e348a9cc31ac327090d, type: 3}
-  - {fileID: 21300000, guid: 271d789ba3e91494c83f1a2431b0439b, type: 3}
-  - {fileID: 21300000, guid: 3a85177ae253e474bbc609dddefc0ce0, type: 3}
-  - {fileID: 21300000, guid: adbda91a8fd3b3845996e928a77b4dec, type: 3}
-  - {fileID: 21300000, guid: 4a90abf6a4c32f44ea60801786745ad5, type: 3}
-  - {fileID: 21300000, guid: e4bfcaa29f08599429a12ab413f9beba, type: 3}
-  - {fileID: 21300000, guid: 9ae94aca51e763e4ebd901a171066b70, type: 3}
-  - {fileID: 21300000, guid: a1ec44eee46662740b739083cc6c913a, type: 3}
-  - {fileID: 21300000, guid: 0f56be0ab9e9afa4680c064bf573831f, type: 3}
-  - {fileID: 21300000, guid: 83800587b1a7908408dca414a290e175, type: 3}
-  - {fileID: 21300000, guid: 914751d3f5cece348970abe2537a7482, type: 3}
-  RoundsPerMinute: 600
+  data: {fileID: 11400000, guid: 3dc154038b83cd74b935b4febc36676f, type: 2}
 --- !u!212 &344793367
 SpriteRenderer:
   m_ObjectHideFlags: 0

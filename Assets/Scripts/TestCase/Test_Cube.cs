@@ -1,3 +1,4 @@
+using Framework;
 using UnityEngine;
 
 public class Test_Cube : MonoBehaviour

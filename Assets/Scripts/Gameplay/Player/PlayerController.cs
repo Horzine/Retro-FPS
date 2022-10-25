@@ -1,10 +1,11 @@
+using Framework;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public Transform PlayerCameraTsf;
-    private Transform _selfTsf;
     public float Speed;
+    private Transform _selfTsf;
     private float _cameraRotation;
 
     private void Awake()

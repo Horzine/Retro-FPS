@@ -1,3 +1,4 @@
+using Framework;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -20,14 +21,13 @@ public class WeaponController : MonoBehaviour
 
     private void OnDestroy()
     {
-
         PlayerInputSystem.Instance.ReloadAction -= OnInputReloadAction;
         PlayerInputSystem.Instance.SwapWeaponAction -= OnInputSwapWeaponAction;
     }
 
     private void OnInputReloadAction()
     {
-        if (!Pistol.HasSelfReloadAnim())
+        if (!Pistol.HasSelfReloadAnim)
         {
             m_Animator.SetTrigger(AnimTrigger_Weapon_Reload);
         }
@@ -37,5 +37,16 @@ public class WeaponController : MonoBehaviour
     private void OnInputSwapWeaponAction()
     {
         m_Animator.SetTrigger(AnimTrigger_Weapon_Swap);
+    }
+
+    private void HandleMovementInput()
+    {
+        var dir = PlayerInputSystem.Instance.MovementDirection;
+        m_Animator.SetLayerWeight(1, Mathf.Min(dir.sqrMagnitude, 1));
+    }
+
+    private void Update()
+    {
+        HandleMovementInput();
     }
 }

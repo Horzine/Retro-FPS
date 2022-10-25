@@ -1,26 +1,20 @@
 using Framework;
-using System;
 using UnityEngine;
 
 public class Pistol : MonoBehaviour
 {
+    public WeaponData data;
     private SpriteAnimator _spriteAniamtion;
-    public Sprite[] FireAnim;
-    public Sprite[] IdleAnim;
-    public Sprite[] ReloadAnim;
-    public float RoundsPerMinute = 1;
-    private float _fireIntervalTime;
     private float _nextEnableFireTime;
 
-    private const string FireAnimName = nameof(FireAnim);
-    private const string IdleAnimName = nameof(IdleAnim);
-    private const string ReloadAnimName = nameof(ReloadAnim);
+    private const string FireAnimName = nameof(WeaponData.FireAnim);
+    private const string IdleAnimName = nameof(WeaponData.IdleAnim);
+    private const string ReloadAnimName = nameof(WeaponData.ReloadAnim);
 
     private Camera mainCamera;
 
     private void Awake()
     {
-        _fireIntervalTime = 60 / RoundsPerMinute;
         _nextEnableFireTime = Time.realtimeSinceStartup;
     }
 
@@ -30,9 +24,9 @@ public class Pistol : MonoBehaviour
 
         _spriteAniamtion = GetComponent<SpriteAnimator>();
         var renderer = GetComponent<SpriteRenderer>();
-        _spriteAniamtion.AddAnimation(FireAnimName, FireAnim, renderer, OnFireAnimEndCallback);
-        _spriteAniamtion.AddAnimation(IdleAnimName, IdleAnim, renderer, OnFireAnimEndCallback);
-        _spriteAniamtion.AddAnimation(ReloadAnimName, ReloadAnim, renderer, OnFireAnimEndCallback);
+        _spriteAniamtion.AddAnimation(FireAnimName, data.FireAnim, renderer, OnFireAnimEndCallback);
+        _spriteAniamtion.AddAnimation(IdleAnimName, data.IdleAnim, renderer, OnFireAnimEndCallback);
+        _spriteAniamtion.AddAnimation(ReloadAnimName, data.ReloadAnim, renderer, OnFireAnimEndCallback);
 
         PlayerInputSystem.Instance.FireAction += OnInputFireAction;
 
@@ -48,7 +42,7 @@ public class Pistol : MonoBehaviour
         if (Time.realtimeSinceStartup >= _nextEnableFireTime)
         {
             FireRayCastToTarget(new AttackInfo { DamagePoint = 100, MaxDistance = 10, MultiRayCast = false });
-            _nextEnableFireTime = Time.realtimeSinceStartup + _fireIntervalTime;
+            _nextEnableFireTime = Time.realtimeSinceStartup + data.FireIntervalTime;
             _spriteAniamtion.PlayAnimation(FireAnimName);
         }
     }
@@ -80,14 +74,11 @@ public class Pistol : MonoBehaviour
 
     public void Reload()
     {
-        if (HasSelfReloadAnim())
+        if (HasSelfReloadAnim)
         {
             _spriteAniamtion.PlayAnimation(ReloadAnimName);
         }
     }
 
-    public bool HasSelfReloadAnim()
-    {
-        return ReloadAnim != null && ReloadAnim.Length > 0;
-    }
+    public bool HasSelfReloadAnim => data.HasSelfReloadAnim;
 }
