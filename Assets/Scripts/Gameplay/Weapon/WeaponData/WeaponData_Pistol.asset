@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponData_Pistol
   m_EditorClassIdentifier: 
   WeaponName: Pistol
-  DamanagePoint: 30
+  DamagePoint: 0
   MaxBackupAmmo: 120
   CurrentBackupAmmo: 120
   MaxMagzineAmmo: 12
@@ -21,6 +21,7 @@ MonoBehaviour:
   AmmoUsePerFire: 1
   BulletType: 0
   BulletProjectileName: 
+  BulletMaxDistance: 50
   FireRoundsPerMinute: 500
   ReloadSpeedMultiple: 1
   IdleAnim:

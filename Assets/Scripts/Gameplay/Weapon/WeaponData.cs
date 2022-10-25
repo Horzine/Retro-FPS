@@ -9,7 +9,7 @@ public class WeaponData : ScriptableObject
         Projectile = 1,
     }
     public string WeaponName;
-    public int DamanagePoint;
+    public int DamagePoint;
     public int MaxBackupAmmo;
     public int CurrentBackupAmmo;
     public int MaxMagzineAmmo;
@@ -17,6 +17,7 @@ public class WeaponData : ScriptableObject
     public int AmmoUsePerFire = 1;
     public BulletTypeEnum BulletType;
     public string BulletProjectileName;
+    public float BulletMaxDistance;
     public float FireRoundsPerMinute = 1;
     public float ReloadSpeedMultiple = 1;
     public Sprite[] IdleAnim;

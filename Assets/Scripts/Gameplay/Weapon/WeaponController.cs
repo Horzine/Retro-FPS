@@ -7,6 +7,7 @@ public class WeaponController : MonoBehaviour
     private Animator m_Animator;
     private const string AnimTrigger_Weapon_Reload = "Weapon_Reload";
     private const string AnimTrigger_Weapon_Swap = "Weapon_Swap";
+    public const float BasicReloadTime = 1;
 
     private void Awake()
     {
@@ -27,11 +28,14 @@ public class WeaponController : MonoBehaviour
 
     private void OnInputReloadAction()
     {
-        if (!Pistol.HasSelfReloadAnim)
+        if (Pistol.CanReload)
         {
-            m_Animator.SetTrigger(AnimTrigger_Weapon_Reload);
+            if (!Pistol.HasSelfReloadAnim)
+            {
+                m_Animator.SetTrigger(AnimTrigger_Weapon_Reload);
+            }
+            Pistol.Reload();
         }
-        Pistol.Reload();
     }
 
     private void OnInputSwapWeaponAction()
