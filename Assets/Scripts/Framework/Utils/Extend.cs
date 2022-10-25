@@ -12,4 +12,11 @@ public static class Extend
         Debug.LogError($"{monoBehaviour.name}->{MethodName}-> {content}", monoBehaviour);
     }
 
+    public static void SetGameObjectActive(this Component component, bool active)
+    {
+        if (component && component.gameObject)
+        {
+            component.gameObject.SetActive(active);
+        }
+    }
 }
