@@ -9,6 +9,8 @@ public class PlayerInputSystem : MonoSingleton<PlayerInputSystem>
     public float MouseSensitivity { get; private set; } = 250;
     public event Action FireAction;
     public event Action SecondaryFireAction;
+    public event Action ReloadAction;
+    public event Action SwapWeaponAction;
 
     private void Update()
     {
@@ -16,9 +18,13 @@ public class PlayerInputSystem : MonoSingleton<PlayerInputSystem>
 
         HandleFireInput();
 
+        HandleReloadInput();
+
+        HandleSwapWeaponInput();
+
         HandleMoveDirectionInput();
 
-        HandleMouseChange();
+        HandleCursorLockModeChange();
     }
 
     private void HandleMouseInput()
@@ -37,6 +43,22 @@ public class PlayerInputSystem : MonoSingleton<PlayerInputSystem>
         if (Input.GetMouseButtonDown(1))
         {
             SecondaryFireAction?.Invoke();
+        }
+    }
+
+    private void HandleReloadInput()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ReloadAction?.Invoke();
+        }
+    }
+
+    private void HandleSwapWeaponInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SwapWeaponAction?.Invoke();
         }
     }
 
@@ -62,7 +84,7 @@ public class PlayerInputSystem : MonoSingleton<PlayerInputSystem>
         MovementDirection.Normalize();
     }
 
-    private void HandleMouseChange()
+    private void HandleCursorLockModeChange()
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {

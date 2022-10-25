@@ -11,8 +11,15 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (!_instance && !_isDestory)
             {
-                _instance = new GameObject(typeof(T).Name).AddComponent<T>();
-                DontDestroyOnLoad(_instance);
+                _instance = (T)FindObjectOfType(typeof(T));
+                if (!_instance)
+                {
+                    _instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                }
+                if (Application.isPlaying)
+                {
+                    DontDestroyOnLoad(_instance);
+                }
             }
             return _instance;
         }
@@ -20,9 +27,14 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
-        if (_instance)
+        if (_instance && _instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = GetComponent<T>();
+            DontDestroyOnLoad(_instance);
         }
     }
 

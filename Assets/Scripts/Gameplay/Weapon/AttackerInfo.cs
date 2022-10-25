@@ -11,7 +11,7 @@ public class AttackInfo
 
     public static void SendAttackInfoToTarger(Component target, AttackInfo attackInfo, Vector3 hitPoint, Vector3 hitNormal)
     {
-        if (target.TryGetComponent<InjuredInfo>(out var injured))
+        if (target.TryGetComponent<InjuredBehaviour>(out var injured))
         {
             injured.OnBeingAttacked(attackInfo, hitPoint, hitNormal);
         }

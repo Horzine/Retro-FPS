@@ -28,6 +28,12 @@ namespace Framework
             Action animationEvent = null,
             int animationEventIndex = 0)
         {
+            if (sprites == null || sprites.Length == 0)
+            {
+                return;
+            }
+
+
             if (!_allAnimations.ContainsKey(name))
             {
                 var anim = new SpriteAnimation(name,
@@ -48,13 +54,12 @@ namespace Framework
 
         public void PlayAnimation(string name)
         {
-            if (_allAnimations.ContainsKey(name))
+            if (_allAnimations.TryGetValue(name, out var anim))
             {
                 if (_currentAnimCoroutine != null)
                 {
                     StopCoroutine(_currentAnimCoroutine);
                 }
-                var anim = _allAnimations[name];
                 _currentAnimCoroutine = StartCoroutine(anim.GetEnumerator());
             }
             else
@@ -65,9 +70,8 @@ namespace Framework
 
         public void SetAnimIntervalTime(string name, float intervalTime)
         {
-            if (_allAnimations.ContainsKey(name))
+            if (_allAnimations.TryGetValue(name, out var anim))
             {
-                var anim = _allAnimations[name];
                 anim.IntervalTime = intervalTime;
             }
             else

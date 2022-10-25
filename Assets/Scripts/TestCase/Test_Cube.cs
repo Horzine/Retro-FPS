@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Test_Cube : MonoBehaviour
 {
-    private InjuredInfo _injuredInfo;
+    private InjuredBehaviour _injuredInfo;
 
     private void Awake()
     {
-        _injuredInfo = GetComponent<InjuredInfo>();
+        _injuredInfo = GetComponent<InjuredBehaviour>();
         _injuredInfo.OnDamaged += OnDamaged;
     }
     private void OnDestroy()
@@ -17,9 +17,9 @@ public class Test_Cube : MonoBehaviour
         }
     }
 
-    private void OnDamaged(float damage, Vector3 hitPoint, Vector3 hitNormal)
+    private void OnDamaged(InjuredInfo injuredInfo)
     {
-        this.PrintLog($"{nameof(OnDamaged)}", $"{nameof(damage)}: {damage}");
-        AppliqueManager.Instance.SpawnApplique(transform, hitPoint, hitNormal);
+        // this.PrintLog($"{nameof(OnDamaged)}", $"{injuredInfo}");
+        AppliqueManager.Instance.SpawnApplique(transform, injuredInfo.HitPoint, injuredInfo.HitNormal);
     }
 }
