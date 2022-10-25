@@ -30,11 +30,11 @@ public class WeaponController : MonoBehaviour
     {
         if (Pistol.CanReload)
         {
+            Pistol.BeginReload();
             if (!Pistol.HasSelfReloadAnim)
             {
                 m_Animator.SetTrigger(AnimTrigger_Weapon_Reload);
             }
-            Pistol.Reload();
         }
     }
 

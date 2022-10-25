@@ -1,4 +1,5 @@
 using Framework;
+using System.Timers;
 using UnityEngine;
 
 public class Pistol : MonoBehaviour
@@ -7,21 +8,26 @@ public class Pistol : MonoBehaviour
     private WeaponData _data;
     private SpriteAnimator _spriteAniamtion;
     private float _nextEnableFireTime;
-    private float _nextEnableReloadTime;
     private Camera _mainCamera;
+    private Timer _doReloadTimer;
 
     private const string FireAnimName = nameof(WeaponConfig.FireAnim);
     private const string IdleAnimName = nameof(WeaponConfig.IdleAnim);
     private const string ReloadAnimName = nameof(WeaponConfig.ReloadAnim);
 
-
     private void Awake()
     {
+        _doReloadTimer = new Timer
+        {
+            AutoReset = false,
+            Interval = ReloadTime * 1000,
+        };
+        _doReloadTimer.Elapsed += (_, _) => DoReload();
+
         _data = new();
         _data.BindConfig(_config);
 
         _nextEnableFireTime = Time.realtimeSinceStartup;
-        _nextEnableReloadTime = Time.realtimeSinceStartup;
     }
 
     void Start()
@@ -41,9 +47,11 @@ public class Pistol : MonoBehaviour
 
         _spriteAniamtion.PlayAnimation(IdleAnimName);
     }
+
     private void OnDestroy()
     {
         PlayerInputSystem.Instance.FireAction -= OnInputFireAction;
+        _doReloadTimer?.Dispose();
     }
 
     private void OnInputFireAction()
@@ -82,19 +90,38 @@ public class Pistol : MonoBehaviour
         }
     }
 
-    public void Reload()
+    public void BeginReload()
     {
-        _data.ReloadAmmunition();
-        _nextEnableReloadTime = Time.realtimeSinceStartup + WeaponController.BasicReloadTime * _config.ReloadSpeedMultiple;
-        if (HasSelfReloadAnim)
+        if (CanReload)
         {
-            _spriteAniamtion.PlayAnimation(ReloadAnimName);
+            _data.BeginReload();
+            _doReloadTimer.Start();
+            if (HasSelfReloadAnim)
+            {
+                _spriteAniamtion.PlayAnimation(ReloadAnimName);
+            }
         }
     }
 
-    public bool CanReload => _data.CanReload && Time.realtimeSinceStartup >= _nextEnableReloadTime;
+    public void DoReload()
+    {
+        _data.DoReloadAmmunition();
+    }
+
+    public bool CanReload => _data.CanReload;
 
     public bool HasSelfReloadAnim => _config.HasSelfReloadAnim;
 
     public bool CanFire => _data.CanFire && Time.realtimeSinceStartup >= _nextEnableFireTime;
+
+    private float ReloadTime => WeaponController.BasicReloadTime * _config.ReloadSpeedMultiple;
+
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(10, 0, 300, 20), $"Current Ammo: {_data.CurrentMagzineAmmo}");
+        GUI.Label(new Rect(10, 30, 300, 20), $"Backup Ammo: {_data.CurrentBackupAmmo}");
+        GUI.Label(new Rect(10, 60, 300, 20), $"Can Fire: {CanFire}");
+        GUI.Label(new Rect(10, 90, 300, 20), $"Can Reload: {CanReload}");
+    }
 }

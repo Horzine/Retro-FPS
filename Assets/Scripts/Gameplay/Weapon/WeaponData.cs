@@ -2,6 +2,8 @@ public class WeaponData
 {
     public int CurrentMagzineAmmo { get; private set; }
     public int CurrentBackupAmmo { get; private set; }
+    public bool IsReloading { get; private set; }
+
     private WeaponConfig _config;
     public void BindConfig(WeaponConfig config)
     {
@@ -16,11 +18,16 @@ public class WeaponData
         CurrentBackupAmmo = _config.MaxBackupAmmo;
     }
 
-    public bool CanReload => !(CurrentMagzineAmmo == _config.MaxMagzineAmmo || CurrentBackupAmmo == 0);
+    public bool CanReload => !(CurrentMagzineAmmo == _config.MaxMagzineAmmo || CurrentBackupAmmo == 0 || IsReloading);
 
-    public void ReloadAmmunition()
+    public void BeginReload()
     {
-        if (CanReload)
+        IsReloading = true;
+    }
+
+    public void DoReloadAmmunition()
+    {
+        if (IsReloading)
         {
             var total = CurrentMagzineAmmo + CurrentBackupAmmo;
             if (total >= _config.MaxMagzineAmmo)
@@ -33,10 +40,11 @@ public class WeaponData
                 CurrentMagzineAmmo = total;
                 CurrentBackupAmmo = 0;
             }
+            IsReloading = false;
         }
     }
 
-    public bool CanFire => CurrentMagzineAmmo >= _config.AmmoUsePerFire;
+    public bool CanFire => CurrentMagzineAmmo >= _config.AmmoUsePerFire && !IsReloading;
 
     public void Fire()
     {
