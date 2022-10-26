@@ -1,1 +1,2 @@
 TimerManager:	支持持有单个对象, 可以Restart和暂停, Once类型的自动释放
+Hand Inertia 效果: 为什么子 融合树的 Y轴 没办法叠加 上去， 可是 X 轴能正常叠加 
