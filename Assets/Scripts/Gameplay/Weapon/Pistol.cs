@@ -9,7 +9,7 @@ public class Pistol : MonoBehaviour
     private SpriteAnimator _spriteAniamtion;
     private float _nextEnableFireTime;
     private Camera _mainCamera;
-    private int _doReloadTimer;
+    private int _doReloadTimer = -1;
 
     private const string FireAnimName = nameof(WeaponConfig.FireAnim);
     private const string IdleAnimName = nameof(WeaponConfig.IdleAnim);

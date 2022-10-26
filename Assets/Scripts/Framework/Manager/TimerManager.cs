@@ -61,7 +61,6 @@ namespace Framework
             }
         }
 
-
         private Timer CreateTimer()
         {
             return new Timer(_idIndex++, OnTimerFinishAction);
@@ -160,7 +159,7 @@ namespace Framework
             }
             ~Timer()
             {
-                Debug.Log($"Timer: {TimerId} has been release");
+                // Debug.Log($"Timer: {TimerId} has been released");
             }
             private float _time;
             private float _nextInvokeTime;

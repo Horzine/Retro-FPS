@@ -15,7 +15,7 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
 {
     private readonly Queue<T> _waitingQueue = new(MaxPoolCount);
     private readonly Queue<T> _workingQueue = new(MaxPoolCount);
-    private readonly int _recoverTimer;
+    private readonly int _recoverTimer = -1;
     private const int MaxPoolCount = 20;
     private readonly float _recoverTime = 3;
     public event Action<T> InitCallback;
