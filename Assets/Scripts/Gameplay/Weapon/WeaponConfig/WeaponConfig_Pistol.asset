@@ -16,7 +16,7 @@ MonoBehaviour:
   DamagePoint: 10
   MaxBackupAmmo: 36
   MaxMagzineAmmo: 12
-  AmmoUsePerFire: 1
+  AmmoUsePerFire: 0
   BulletType: 0
   BulletProjectileName: 
   BulletMaxDistance: 50

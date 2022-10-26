@@ -15,18 +15,17 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
 {
     private readonly Queue<T> _waitingQueue = new(MaxPoolCount);
     private readonly Queue<T> _workingQueue = new(MaxPoolCount);
-    private int _recoverTimer;
+    private readonly int _recoverTimer;
     private const int MaxPoolCount = 20;
     private readonly float _recoverTime = 3;
     public event Action<T> InitCallback;
-    private T _templete;
+    private readonly T _templete;
 
     public GameObjectPool(T templete)
     {
         _templete = templete;
         _recoverTimer = TimerManager.Instance.Register(_recoverTime, DoAutoRecover, true);
     }
-
 
     public void OnDestory()
     {
