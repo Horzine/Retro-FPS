@@ -20,10 +20,12 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
     private readonly float _recoverTime = 3;
     public event Action<T> InitCallback;
     private readonly T _templete;
+    private readonly Transform _fatherTsf;
 
-    public GameObjectPool(T templete)
+    public GameObjectPool(T templete, Transform fatherTsf)
     {
         _templete = templete;
+        _fatherTsf = fatherTsf;
         _recoverTimer = TimerManager.Instance.Register(_recoverTime, DoAutoRecover, true);
     }
 
@@ -44,7 +46,7 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
             else
             {
                 // entry = new GameObject(typeof(T).Name).AddComponent<T>();
-                entry = Object.Instantiate(_templete);
+                entry = Object.Instantiate(_templete, _fatherTsf);
                 InitCallback?.Invoke(entry);
                 _waitingQueue.Enqueue(entry);
             }

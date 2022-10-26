@@ -6,7 +6,7 @@ namespace Framework
 {
     public class TimerManager : MonoSingleton<TimerManager>
     {
-        private int _idIndex = 0;
+        private int _idIndex = 1;
         private readonly List<Timer> _timerWillAdd = new();
         private readonly List<int> _timerWillRemove = new();
         private readonly List<(int timerId, float interval)> _timerWillModifyInterval = new();

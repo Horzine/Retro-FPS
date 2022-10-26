@@ -21,6 +21,6 @@ public class Test_Cube : MonoBehaviour
     private void OnDamaged(InjuredInfo injuredInfo)
     {
         // this.PrintLog($"{nameof(OnDamaged)}", $"{injuredInfo}");
-        AppliqueManager.Instance.SpawnApplique(transform, injuredInfo.HitPoint, injuredInfo.HitNormal);
+        AppliqueManager.Instance.SpawnApplique(injuredInfo.HitPoint, injuredInfo.HitNormal);
     }
 }

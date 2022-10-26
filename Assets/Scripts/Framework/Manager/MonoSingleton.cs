@@ -5,26 +5,19 @@ namespace Framework
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T _instance;
-        private static bool _isDestory;
-
-        public static T Instance
+        public static T Instance => GetInstance();
+        private static T GetInstance()
         {
-            get
+            if (!_instance)
             {
-                if (!_instance && !_isDestory)
+                _instance = (T)FindObjectOfType(typeof(T));
+                if (!_instance)
                 {
-                    _instance = (T)FindObjectOfType(typeof(T));
-                    if (!_instance)
-                    {
-                        _instance = new GameObject(typeof(T).Name).AddComponent<T>();
-                    }
-                    if (Application.isPlaying)
-                    {
-                        DontDestroyOnLoad(_instance);
-                    }
+                    _instance = new GameObject(typeof(T).Name).AddComponent<T>();
                 }
-                return _instance;
+                DontDestroyOnLoad(_instance);
             }
+            return _instance;
         }
 
         protected virtual void Awake()
@@ -39,13 +32,6 @@ namespace Framework
                 DontDestroyOnLoad(_instance);
             }
         }
-
-        protected virtual void OnDestory()
-        {
-            _instance = null;
-            _isDestory = true;
-        }
-
     }
 
 }
