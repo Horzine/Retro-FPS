@@ -1,14 +1,12 @@
+using Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Timers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public interface IGameObjectPoolEntry
 {
     GameObject GameObject { get; }
-    float AutoRecoverTime { get; }
-    bool AutoRecover { get; }
     void Reset();
     void OnDeactivate();
     void OnActivate();
@@ -17,26 +15,22 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
 {
     private readonly Queue<T> _waitingQueue = new(MaxPoolCount);
     private readonly Queue<T> _workingQueue = new(MaxPoolCount);
-    private Timer _recoverTimer;
-    private const int MaxPoolCount = 10;
-    private float _recoverTime = 5;
+    private int _recoverTimer;
+    private const int MaxPoolCount = 20;
+    private readonly float _recoverTime = 3;
     public event Action<T> InitCallback;
+    private T _templete;
 
-
-    public void Init()
+    public GameObjectPool(T templete)
     {
-        _recoverTimer = new Timer
-        {
-            AutoReset = true,
-            Interval = _recoverTime * 1000,
-        };
-        _recoverTimer.Elapsed += (_, _) => Recover();
-        _recoverTimer.Start();
+        _templete = templete;
+        _recoverTimer = TimerManager.Instance.Register(_recoverTime, DoAutoRecover, true);
     }
+
 
     public void OnDestory()
     {
-        _recoverTimer?.Dispose();
+        TimerManager.Instance.CloseTimer(_recoverTimer);
     }
 
     public T GetObject()
@@ -50,7 +44,8 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
             }
             else
             {
-                entry = new GameObject(typeof(T).Name).AddComponent<T>();
+                // entry = new GameObject(typeof(T).Name).AddComponent<T>();
+                entry = Object.Instantiate(_templete);
                 InitCallback?.Invoke(entry);
                 _waitingQueue.Enqueue(entry);
             }
@@ -67,7 +62,7 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
         {
             _workingQueue.Enqueue(entry);
             entry.OnActivate();
-            Debug.Log($"Waiting To Working: _waitingQueue {_waitingQueue.Count}, _workingQueue {_workingQueue.Count}");
+            // Debug.Log($"Waiting To Working: _waitingQueue {_waitingQueue.Count}, _workingQueue {_workingQueue.Count}");
         }
         return entry;
     }
@@ -78,13 +73,13 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
         {
             _waitingQueue.Enqueue(entry);
             entry.OnDeactivate();
-            Debug.Log($"Working To Waiting: _waitingQueue {_waitingQueue.Count}, _workingQueue {_workingQueue.Count}");
+            // Debug.Log($"Working To Waiting: _waitingQueue {_waitingQueue.Count}, _workingQueue {_workingQueue.Count}");
         }
         return entry;
     }
 
-    public void Recover()
-    {/// Temp for testing
+    private void DoAutoRecover()
+    {
         WorkingTransitionWaiting();
     }
 

@@ -9,15 +9,15 @@ namespace Framework
         private int _idIndex = 0;
         private readonly List<Timer> _timerWillAdd = new();
         private readonly List<int> _timerWillRemove = new();
-        private readonly List<(int timerId, float interval, bool loop)> _timerWillModify = new();
+        private readonly List<(int timerId, float interval)> _timerWillModifyInterval = new();
+        private readonly List<(int timerId, bool loop)> _timerWillModifyLoop = new();
         private readonly SortedList<int, Timer> timers = new();
 
-        // TODO; void RegisterNoLoop
         public int Register(float interval, Action triggerCallback, bool loop = false)
         {
             var timer = CreateTimer();
             timer.Loop = loop;
-            timer.Interval = interval;
+            timer.ModifyInterval(interval);
             timer.TriggerCallback += triggerCallback;
             _timerWillAdd.Add(timer);
             return timer.TimerId;
@@ -25,7 +25,7 @@ namespace Framework
 
         public void ResetTimerTime(int timerId)
         {
-            GetTimer(timerId)?.ResetTime();
+            GetTimer(timerId)?.ResetNextInvokeTime();
         }
 
         public void ForceTriggerTimer(int timerId)
@@ -48,7 +48,7 @@ namespace Framework
             var timer = GetTimer(timerId);
             if (timer != null)
             {
-                _timerWillModify.Add((timerId, timer.Interval, loop));
+                _timerWillModifyLoop.Add((timerId, loop));
             }
         }
 
@@ -57,7 +57,7 @@ namespace Framework
             var timer = GetTimer(timerId);
             if (timer != null)
             {
-                _timerWillModify.Add((timerId, interval, timer.Loop));
+                _timerWillModifyInterval.Add((timerId, interval));
             }
         }
 
@@ -98,18 +98,26 @@ namespace Framework
 
         private void HandleTimerWillModify()
         {
-            if (_timerWillModify.Count > 0)
+            if (_timerWillModifyLoop.Count > 0)
             {
-                foreach (var (timerId, interval, loop) in _timerWillModify)
+                foreach (var (timerId, loop) in _timerWillModifyLoop)
                 {
                     var timer = GetTimer(timerId);
                     if (timer != null)
                     {
-                        timer.Interval = interval;
                         timer.Loop = loop;
                     }
                 }
-                _timerWillModify.Clear();
+                _timerWillModifyLoop.Clear();
+            }
+
+            if (_timerWillModifyInterval.Count > 0)
+            {
+                foreach (var (timerId, interval) in _timerWillModifyInterval)
+                {
+                    GetTimer(timerId)?.ModifyInterval(interval);
+                }
+                _timerWillModifyInterval.Clear();
             }
         }
 
@@ -137,7 +145,7 @@ namespace Framework
         {
             if (!timers.TryGetValue(timerId, out var Timer))
             {
-                this.PrintError(nameof(GetTimer), $"timerId :{timerId} not contain in SortedList");
+                this.PrintWarning(nameof(GetTimer), $"timerId :{timerId} not contain in SortedList");
             }
             return Timer;
         }
@@ -152,19 +160,20 @@ namespace Framework
             }
             ~Timer()
             {
-                Debug.Log($"~Timer id: {TimerId}");
+                Debug.Log($"Timer: {TimerId} has been release");
             }
             private float _time;
+            private float _nextInvokeTime;
             private event Action<int> _finishAction;
             public int TimerId { get; set; }
             public bool Loop { get; set; }
-            public float Interval { get; set; }
+            public float Interval { get; private set; }
             public event Action TriggerCallback;
 
             public void OnUpdate(float deltaTime)
             {
                 _time += deltaTime;
-                if (_time >= Interval)
+                if (_time >= _nextInvokeTime)
                 {
                     OnTrigger();
                 }
@@ -176,7 +185,7 @@ namespace Framework
 
                 if (Loop)
                 {
-                    _time = Mathf.Max(0, _time - Interval);
+                    _nextInvokeTime += Interval;
                 }
                 else
                 {
@@ -184,19 +193,21 @@ namespace Framework
                 }
             }
 
-            public void ResetTime()
+            public void ResetNextInvokeTime()
             {
-                _time = 0;
+                _nextInvokeTime = _time + Interval;
             }
 
             public void ForceTrigger()
             {
                 OnTrigger();
+                ResetNextInvokeTime();
             }
 
             public void InvokeTriggerCallback()
             {
                 TriggerCallback?.Invoke();
+                // Debug.Log($"{Time.time} Timer: InvokeTriggerCallback");
             }
 
             public void InvokeFinishCallback()
@@ -204,6 +215,11 @@ namespace Framework
                 _finishAction?.Invoke(TimerId);
             }
 
+            public void ModifyInterval(float newInterval)
+            {// notice: ModifyInterval will ResetNextInvokeTime
+                Interval = newInterval;
+                ResetNextInvokeTime();
+            }
         }
     }
 }

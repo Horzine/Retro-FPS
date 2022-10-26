@@ -7,6 +7,11 @@ public static class Extend
         Debug.Log($"{monoBehaviour.name}->{MethodName}-> {content}", monoBehaviour);
     }
 
+    public static void PrintWarning(this MonoBehaviour monoBehaviour, string MethodName, string content)
+    {
+        Debug.LogWarning($"{monoBehaviour.name}->{MethodName}-> {content}", monoBehaviour);
+    }
+
     public static void PrintError(this MonoBehaviour monoBehaviour, string MethodName, string content)
     {
         Debug.LogError($"{monoBehaviour.name}->{MethodName}-> {content}", monoBehaviour);

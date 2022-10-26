@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Test_GameObjectPool : MonoBehaviour
 {
-    private GameObjectPool<Test_GameObjectPoolEntry> pool = new();
+    private GameObjectPool<Test_GameObjectPoolEntry> pool ;
 
     public void Awake()
     {
-        pool.Init();
+       // pool.Init();
     }
     public void OnGUI()
     {
@@ -19,7 +19,7 @@ public class Test_GameObjectPool : MonoBehaviour
         }
         if (GUI.Button(new Rect(0, 100, 100, 50), "11111111111"))
         {
-            pool.Recover();
+            // pool.DoAutoRecover();
         }
 
 

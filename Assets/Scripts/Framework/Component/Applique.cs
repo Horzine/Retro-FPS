@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Applique : MonoBehaviour
+public class Applique : MonoBehaviour, IGameObjectPoolEntry
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject GameObject => gameObject;
+
+    public float AutoRecoverTime => throw new System.NotImplementedException();
+
+    public bool AutoRecover => throw new System.NotImplementedException();
+
+    public void OnActivate()
     {
-        
+        this.SetGameObjectActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnDeactivate()
     {
-        
+        this.SetGameObjectActive(false);
+    }
+
+    public void Reset()
+    {
+
     }
 }

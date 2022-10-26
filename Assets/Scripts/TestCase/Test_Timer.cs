@@ -15,7 +15,7 @@ public class Test_Timer : MonoBehaviour
 
     private void Callback(int i)
     {
-        Debug.Log($"Callback {i}");
+       //  Debug.Log($"Callback {i}");
     }
 
     private void Update()

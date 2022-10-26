@@ -9,7 +9,7 @@ public class Pistol : MonoBehaviour
     private SpriteAnimator _spriteAniamtion;
     private float _nextEnableFireTime;
     private Camera _mainCamera;
-    private Timer _doReloadTimer;
+    private int _doReloadTimer;
 
     private const string FireAnimName = nameof(WeaponConfig.FireAnim);
     private const string IdleAnimName = nameof(WeaponConfig.IdleAnim);
@@ -17,13 +17,6 @@ public class Pistol : MonoBehaviour
 
     private void Awake()
     {
-        _doReloadTimer = new Timer
-        {
-            AutoReset = false,
-            Interval = ReloadTime * 1000,
-        };
-        _doReloadTimer.Elapsed += (_, _) => DoReload();
-
         _data = new();
         _data.BindConfig(_config);
 
@@ -51,7 +44,7 @@ public class Pistol : MonoBehaviour
     private void OnDestroy()
     {
         PlayerInputSystem.Instance.FireAction -= OnInputFireAction;
-        _doReloadTimer?.Dispose();
+        TimerManager.Instance.CloseTimer(_doReloadTimer);
     }
 
     private void OnInputFireAction()
@@ -95,7 +88,7 @@ public class Pistol : MonoBehaviour
         if (CanReload)
         {
             _data.BeginReload();
-            _doReloadTimer.Start();
+            _doReloadTimer = TimerManager.Instance.Register(ReloadTime, DoReload);
             if (HasSelfReloadAnim)
             {
                 _spriteAniamtion.PlayAnimation(ReloadAnimName);
