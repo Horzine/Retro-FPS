@@ -9,7 +9,6 @@ public class Gun : MonoBehaviour, IWeapon
     private float _nextEnableFireTime;
     private Camera _mainCamera;
     private int _doReloadTimer = -1;
-    private bool _isSwaping;
     private const string FireAnimName = nameof(GunConfig.FireAnim);
     private const string IdleAnimName = nameof(GunConfig.IdleAnim);
     private const string ReloadAnimName = nameof(GunConfig.ReloadAnim);
@@ -152,6 +151,7 @@ public class Gun : MonoBehaviour, IWeapon
     public void DoReload()
     {
         _data.DoReloadAmmunition();
+        _doReloadTimer = default;
     }
 
     public void CancelReload()
@@ -159,8 +159,8 @@ public class Gun : MonoBehaviour, IWeapon
         if (_data.IsReloading)
         {
             TimerManager.Instance.CloseTimer(_doReloadTimer);
-            _data.CancelReload();
             _doReloadTimer = default;
+            _data.CancelReload();
         }
         else
         {
@@ -168,9 +168,9 @@ public class Gun : MonoBehaviour, IWeapon
         }
     }
 
-    public bool CanReload => _data.CanReload && !_isSwaping;
+    public bool CanReload => _data.CanReload && !IsSwaping;
 
-    public bool CanFire => _data.CanFire && Time.time >= _nextEnableFireTime && !_isSwaping;
+    public bool CanFire => _data.CanFire && Time.time >= _nextEnableFireTime && !IsSwaping;
 
     public bool HasSelfReloadAnim => _config.HasSelfReloadAnim;
 
@@ -179,6 +179,8 @@ public class Gun : MonoBehaviour, IWeapon
     private float ReloadTime => WeaponController.BasicReloadTime * _config.ReloadSpeedMultiple;
 
     public IWeapon.WeaponTypeEnum WeaponType => IWeapon.WeaponTypeEnum.Gun;
+
+    public bool IsSwaping { get; set; }
 
     private void OnGUI()
     {
@@ -190,23 +192,28 @@ public class Gun : MonoBehaviour, IWeapon
 
     public void OnSwapOut()
     {
-        _isSwaping = true;
+        IsSwaping = true;
+        if (_data.IsReloading)
+        {
+            CancelReload();
+        }
     }
 
     public void OnSwapOutEnd()
     {
         this.SetGameObjectActive(false);
-        _isSwaping = false;
+        IsSwaping = false;
     }
 
     public void OnSwapIn()
     {
         this.SetGameObjectActive(true);
-        _isSwaping = true;
+        _spriteAniamtion.PlayAnimation(IdleAnimName);
+        IsSwaping = true;
     }
 
     public void OnSwapInEnd()
     {
-        _isSwaping = false;
+        IsSwaping = false;
     }
 }

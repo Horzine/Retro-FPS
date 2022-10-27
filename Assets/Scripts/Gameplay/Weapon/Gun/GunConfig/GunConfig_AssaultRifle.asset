@@ -20,7 +20,7 @@ MonoBehaviour:
   BulletType: 0
   BulletProjectileName: 
   BulletMaxDistance: 50
-  FireRoundsPerMinute: 600
+  FireRoundsPerMinute: 750
   ReloadSpeedMultiple: 1
   IdleAnim:
   - {fileID: 21300000, guid: e2fdf8f328b76d34dafd26e66491146c, type: 3}

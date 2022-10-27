@@ -11,7 +11,7 @@ public interface IWeapon
         Melee = 1,
     }
     WeaponTypeEnum WeaponType { get; }
-
+    bool IsSwaping { get; set; }
     void OnSwapOutEnd();
     void OnSwapIn();
     void OnSwapOut();
@@ -71,9 +71,8 @@ public class WeaponController : MonoBehaviour
 
     private void OnInputSwapWeaponAction(bool isSwapNext)
     {
-        if (_weaponList.Count > 1)
+        if (_weaponList.Count > 1 && !_currentWeapon.IsSwaping)
         {
-            // if is reloading , cancel reloading
             for (int i = 0; i < _weaponList.Count; i++)
             {
                 if (_weaponList[i] == _currentWeapon)
@@ -81,7 +80,7 @@ public class WeaponController : MonoBehaviour
                     _currentWeapon.OnSwapOut();
                     var newIndex = i + (isSwapNext ? 1 : -1);
                     IWeapon newWeapon = null;
-                    if (newIndex <= 0)
+                    if (newIndex < 0)
                     {
                         newWeapon = _weaponList.Last();
                     }
@@ -94,7 +93,7 @@ public class WeaponController : MonoBehaviour
                         newWeapon = _weaponList[newIndex];
                     }
 
-                    _swapOutTimer = TimerManager.Instance.Register(BasicSwapTime * 0.5f, () => DoSwapWeapon(_currentWeapon, newWeapon));
+                    _swapOutTimer = TimerManager.Instance.Register(BasicSwapTime * 0.5f, () => { DoSwapWeapon(_currentWeapon, newWeapon); });
                     m_Animator.SetTrigger(AnimTrigger_Weapon_Swap);
                     break;
                 }
@@ -105,9 +104,9 @@ public class WeaponController : MonoBehaviour
     private void DoSwapWeapon(IWeapon oldWeapon, IWeapon newWeapon)
     {
         oldWeapon.OnSwapOutEnd();
-        _currentWeapon = newWeapon;
         _swapInTimer = TimerManager.Instance.Register(BasicSwapTime * 0.5f, newWeapon.OnSwapInEnd);
         newWeapon.OnSwapIn();
+        _currentWeapon = newWeapon;
     }
 
     private void HandleMovementInput()
