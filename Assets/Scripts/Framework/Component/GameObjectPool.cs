@@ -13,25 +13,37 @@ public interface IGameObjectPoolEntry
 }
 public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
 {
-    private readonly Queue<T> _waitingQueue = new(MaxPoolCount);
-    private readonly Queue<T> _workingQueue = new(MaxPoolCount);
+    private const int DefaultMaxPoolCount = 20;
+    private readonly Queue<T> _waitingQueue;
+    private readonly Queue<T> _workingQueue;
     private readonly int _recoverTimer = -1;
-    private const int MaxPoolCount = 20;
+    private readonly int _maxPoolCount;
     private readonly float _recoverTime = 3;
-    public event Action<T> InitCallback;
+    private readonly bool _autoDoRecover;
     private readonly T _templete;
     private readonly Transform _fatherTsf;
+    public event Action<T> InitCallback;
 
-    public GameObjectPool(T templete, Transform fatherTsf)
+    public GameObjectPool(T templete, Transform fatherTsf, bool autoDoRecover = true, int maxPoolCount = DefaultMaxPoolCount)
     {
         _templete = templete;
         _fatherTsf = fatherTsf;
-        _recoverTimer = TimerManager.Instance.Register(_recoverTime, DoAutoRecover, true);
+        _autoDoRecover = autoDoRecover;
+        _maxPoolCount = maxPoolCount;
+        _workingQueue = new(_maxPoolCount);
+        _waitingQueue = new(_maxPoolCount);
+        if (_autoDoRecover)
+        {
+            _recoverTimer = TimerManager.Instance.Register(_recoverTime, DoAutoRecover, true);
+        }
     }
 
     public void OnDestory()
     {
-        TimerManager.Instance.CloseTimer(_recoverTimer);
+        if (_autoDoRecover)
+        {
+            TimerManager.Instance.CloseTimer(_recoverTimer);
+        }
     }
 
     public T GetObject()
@@ -39,7 +51,7 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
         var entry = WaitingTransitionWorking();
         if (!entry)
         {
-            if (_workingQueue.Count >= MaxPoolCount)
+            if (_workingQueue.Count >= _maxPoolCount)
             {
                 WorkingTransitionWaiting();
             }
