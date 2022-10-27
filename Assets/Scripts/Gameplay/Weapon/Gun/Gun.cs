@@ -34,7 +34,6 @@ public class Gun : MonoBehaviour, IWeapon
             _spriteAniamtion.AddAnimation(BoltAnimName, _config.BoltAnim, renderer, OnFireAnimEndCallback);
         }
 
-
         _nextEnableFireTime = Time.time;
     }
 
@@ -182,14 +181,6 @@ public class Gun : MonoBehaviour, IWeapon
 
     public bool IsSwaping { get; set; }
 
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10, 0, 300, 20), $"Current Ammo: {_data.CurrentMagzineAmmo}");
-        GUI.Label(new Rect(10, 30, 300, 20), $"Backup Ammo: {_data.CurrentBackupAmmo}");
-        GUI.Label(new Rect(10, 60, 300, 20), $"Can Fire: {CanFire}");
-        GUI.Label(new Rect(10, 90, 300, 20), $"Can Reload: {CanReload}");
-    }
-
     public void OnSwapOut()
     {
         IsSwaping = true;
@@ -215,5 +206,13 @@ public class Gun : MonoBehaviour, IWeapon
     public void OnSwapInEnd()
     {
         IsSwaping = false;
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(10, 0, 300, 20), $"Current Ammo: {_data.CurrentMagzineAmmo}");
+        GUI.Label(new Rect(10, 30, 300, 20), $"Backup Ammo: {_data.CurrentBackupAmmo}");
+        GUI.Label(new Rect(10, 60, 300, 20), $"Can Fire: {CanFire}");
+        GUI.Label(new Rect(10, 90, 300, 20), $"Can Reload: {CanReload}");
     }
 }

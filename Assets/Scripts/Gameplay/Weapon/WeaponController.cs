@@ -22,7 +22,7 @@ public class WeaponController : MonoBehaviour
     public List<Gun> _guns;
     private IWeapon _currentWeapon;
     private List<IWeapon> _weaponList;
-    private Animator m_Animator;
+    private Animator _animator;
     private const string AnimTrigger_Weapon_Reload = "Weapon_Reload";
     private const string AnimTrigger_Weapon_Swap = "Weapon_Swap";
     public const float BasicReloadTime = 1;
@@ -32,17 +32,18 @@ public class WeaponController : MonoBehaviour
 
     private void Awake()
     {
-        m_Animator = GetComponent<Animator>();
-        _weaponList = new List<IWeapon>(_guns);
-        _currentWeapon = _weaponList.First();
-        _currentWeapon.OnSwapIn();
-        _currentWeapon.OnSwapInEnd();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
         PlayerInputSystem.Instance.ReloadAction += OnInputReloadAction;
         PlayerInputSystem.Instance.SwapWeaponAction += OnInputSwapWeaponAction;
+
+        _weaponList = new List<IWeapon>(_guns);
+        _currentWeapon = _weaponList.First();
+        _currentWeapon.OnSwapIn();
+        _currentWeapon.OnSwapInEnd();
     }
 
     private void OnDestroy()
@@ -63,7 +64,7 @@ public class WeaponController : MonoBehaviour
                 gun.BeginReload();
                 if (!gun.HasSelfReloadAnim)
                 {
-                    m_Animator.SetTrigger(AnimTrigger_Weapon_Reload);
+                    _animator.SetTrigger(AnimTrigger_Weapon_Reload);
                 }
             }
         }
@@ -94,7 +95,7 @@ public class WeaponController : MonoBehaviour
                     }
 
                     _swapOutTimer = TimerManager.Instance.Register(BasicSwapTime * 0.5f, () => { DoSwapWeapon(_currentWeapon, newWeapon); });
-                    m_Animator.SetTrigger(AnimTrigger_Weapon_Swap);
+                    _animator.SetTrigger(AnimTrigger_Weapon_Swap);
                     break;
                 }
             }
@@ -112,7 +113,7 @@ public class WeaponController : MonoBehaviour
     private void HandleMovementInput()
     {
         var dir = PlayerInputSystem.Instance.MovementDirection;
-        m_Animator.SetLayerWeight(1, Mathf.Min(dir.sqrMagnitude, 1));
+        _animator.SetLayerWeight(1, Mathf.Min(dir.sqrMagnitude, 1));
     }
 
     private void Update()
