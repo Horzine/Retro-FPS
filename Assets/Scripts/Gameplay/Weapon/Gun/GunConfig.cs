@@ -1,14 +1,20 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WeaponConfig_", menuName = "ScriptableObjects/WeaponConfig", order = 1)]
-public class WeaponConfig : ScriptableObject
+[CreateAssetMenu(fileName = "GunConfig_", menuName = "ScriptableObjects/GunConfig", order = 1)]
+public class GunConfig : ScriptableObject
 {
     public enum BulletTypeEnum
     {
         RayScan = 0,
         Projectile = 1,
     }
-    public string WeaponName;
+    public enum FireModeEnum
+    {
+        FullAuto = 0,
+        SemiAuto = 1,
+    }
+
+    public string GunName;
     public int DamagePoint;
     public int MaxBackupAmmo;
     public int MaxMagzineAmmo;
@@ -21,8 +27,13 @@ public class WeaponConfig : ScriptableObject
     public Sprite[] IdleAnim;
     public Sprite[] FireAnim;
     public Sprite[] ReloadAnim;
+    public Sprite[] BoltAnim;
+    public FireModeEnum FireMode;
+    public bool NeedBolt;
+    public float BoltTime;
 
     public float FireIntervalTime => 60 / FireRoundsPerMinute;
     public bool HasSelfReloadAnim => ReloadAnim != null && ReloadAnim.Length > 0;
-  
+    public bool HasSelfBoltAnim => BoltAnim != null && BoltAnim.Length > 0;
+
 }

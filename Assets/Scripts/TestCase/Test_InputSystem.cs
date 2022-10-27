@@ -5,7 +5,7 @@ public class Test_InputSystem : MonoBehaviour
 {
     private void Start()
     {
-        PlayerInputSystem.Instance.FireAction += () => print("FireAction");
+        PlayerInputSystem.Instance.FireActionDown += () => print("FireAction");
         PlayerInputSystem.Instance.SecondaryFireAction += () => print("SecondaryFireAction");
     }
 

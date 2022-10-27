@@ -9,7 +9,9 @@ namespace Framework
         public float MouseAxisY { get; private set; }
         public Vector2 MovementDirection { get; private set; }
         public float MouseSensitivity { get; private set; } = 250;
-        public event Action FireAction;
+        public event Action FireActionDown;
+        public event Action FireActionUp;
+        public event Action FireActionPress;
         public event Action SecondaryFireAction;
         public event Action ReloadAction;
         public event Action SwapWeaponAction;
@@ -39,7 +41,15 @@ namespace Framework
         {
             if (Input.GetMouseButtonDown(0))
             {
-                FireAction?.Invoke();
+                FireActionDown?.Invoke();
+            }
+            if (Input.GetMouseButton(0))
+            {
+                FireActionPress?.Invoke();
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                FireActionUp?.Invoke();
             }
 
             if (Input.GetMouseButtonDown(1))

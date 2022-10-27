@@ -1,9 +1,13 @@
 using Framework;
 using UnityEngine;
 
+public interface IWeapon
+{
+
+}
 public class WeaponController : MonoBehaviour
 {
-    public Pistol Pistol;
+    public Gun Pistol;
     private Animator m_Animator;
     private const string AnimTrigger_Weapon_Reload = "Weapon_Reload";
     private const string AnimTrigger_Weapon_Swap = "Weapon_Swap";

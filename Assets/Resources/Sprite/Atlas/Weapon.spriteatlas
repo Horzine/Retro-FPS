@@ -39,17 +39,81 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: d7395730b155f2d44be30f139993c7ce, type: 3}
   - {fileID: 21300000, guid: 95020150bbc872444b1b337ace909b87, type: 3}
+  - {fileID: 21300000, guid: 2ed34380a2028474f835286bd869c893, type: 3}
+  - {fileID: 21300000, guid: bbcdd8f01397efa4083708e703ce3578, type: 3}
   - {fileID: 21300000, guid: ca4bafb14b6559d49b2fb4f130c496a1, type: 3}
+  - {fileID: 21300000, guid: b140dc42d86f54745bb31b68d8dadd71, type: 3}
+  - {fileID: 21300000, guid: 5624f372a10fe0a409cb0ee6d9f6c759, type: 3}
+  - {fileID: 21300000, guid: 4bc5fdf2bd27fc342a5ca397cc23bfc6, type: 3}
+  - {fileID: 21300000, guid: a76d6623029bb474b80b9f0154548508, type: 3}
+  - {fileID: 21300000, guid: c3059623779fbf742ae632f51f8fb347, type: 3}
+  - {fileID: 21300000, guid: e2fdf8f328b76d34dafd26e66491146c, type: 3}
+  - {fileID: 21300000, guid: d1243524fd4dce346b6007ceed3a4bac, type: 3}
+  - {fileID: 21300000, guid: ec3db624f8066684b8310a32efca46ea, type: 3}
+  - {fileID: 21300000, guid: 3675b2b4e2e577a4889f8fecca14f33b, type: 3}
+  - {fileID: 21300000, guid: b3209a25641056f44a7c73404ae2341f, type: 3}
+  - {fileID: 21300000, guid: fe40e585f6ddbc0409a4fdf10a798bfc, type: 3}
+  - {fileID: 21300000, guid: 49ea767677aaf774c93cdd1a5efc1d0c, type: 3}
+  - {fileID: 21300000, guid: fcaf5986495781e43b686d5de493fb06, type: 3}
+  - {fileID: 21300000, guid: e28aad47bea84b04ea4a36421877cee3, type: 3}
+  - {fileID: 21300000, guid: ce059c282590432438e3692156e70208, type: 3}
+  - {fileID: 21300000, guid: 03b96d48e8393064f8d5a56b0a32c27c, type: 3}
+  - {fileID: 21300000, guid: 3082cfc8914297547b1ea21f2dca384e, type: 3}
+  - {fileID: 21300000, guid: 9344f7691c16dc34b8e8f5f59168a8dd, type: 3}
   - {fileID: 21300000, guid: 878c5de9a38956c418575562a6567b2b, type: 3}
+  - {fileID: 21300000, guid: 81e7e9f91bd2fc84d9cbf5abb8e1ba9d, type: 3}
   - {fileID: 21300000, guid: f187348afdde6e74b9cc907a54f0389c, type: 3}
   - {fileID: 21300000, guid: 1d3dc3ca606388c4085765d2324d901a, type: 3}
+  - {fileID: 21300000, guid: 130e04bb0b5c9ed4caea5966f06280ab, type: 3}
+  - {fileID: 21300000, guid: ff6cc2dbb2874d8459b7e3174efa1b25, type: 3}
+  - {fileID: 21300000, guid: cd3a7cdbc180eaa4b92ffeead9762269, type: 3}
+  - {fileID: 21300000, guid: 046516fbe8bebdd4284d7fde06b04d9c, type: 3}
+  - {fileID: 21300000, guid: 84445e6d4d70e674cb1ec91112de7859, type: 3}
+  - {fileID: 21300000, guid: ddc8b34e7549552448ec634e72f07a8d, type: 3}
+  - {fileID: 21300000, guid: 750b4b6e18b3cb54aa4377ccfd339441, type: 3}
+  - {fileID: 21300000, guid: ec223afea952dfe4ba559a8576b8711f, type: 3}
+  - {fileID: 21300000, guid: 314a107faff1954459af3f11ef547ff1, type: 3}
+  - {fileID: 21300000, guid: f920839fcdd18a74db8b8a7f73a2d57a, type: 3}
   m_PackedSpriteNamesToIndex:
-  - revolver_shoot0001
-  - revolver_shoot0003
-  - revolver_shoot0004
-  - revolver_shoot0002
-  - revolver_shoot0000
+  - shotgun_bolt0005
+  - revolver_fire0001
+  - shotgun_bolt0006
+  - shotgun_bolt0003
+  - revolver_fire0003
+  - shotgun_fire0001
+  - shotgun_bolt0003
+  - shotgun_idle
+  - shotgun_bolt0011
+  - shotgun_bolt0001
+  - assaultRifle_idle
+  - shotgun_unknown
+  - shotgun_bolt0008
+  - shotgun_fire0000
+  - shotgun_bolt0002
+  - shotgun_fire0002
+  - shotgun_bolt0005
+  - shotgun_bolt0004
+  - shotgun_bolt0012
+  - shotgun_bolt0004
+  - shotgun_fire0002
+  - shotgun_bolt0002
+  - shotgun_fire0003
+  - revolver_fire0004
+  - shotgun_idle
+  - revolver_fire0002
+  - revolver_fire0000
+  - assaultRifle_fire0002
+  - shotgun_bolt0007
+  - shotgun_bolt0000
+  - shotgun_bolt0001
+  - shotgun_bolt0009
+  - assaultRifle_fire0001
+  - revolver_idle
+  - shotgun_fire0001
+  - shotgun_fire0000
+  - shotgun_bolt0010
   m_RenderDataMap: {}
   m_Tag: Weapon
   m_IsVariant: 0

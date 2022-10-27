@@ -1,11 +1,11 @@
-public class WeaponData
+public class GunData
 {
     public int CurrentMagzineAmmo { get; private set; }
     public int CurrentBackupAmmo { get; private set; }
     public bool IsReloading { get; private set; }
 
-    private WeaponConfig _config;
-    public void BindConfig(WeaponConfig config)
+    private GunConfig _config;
+    public void BindConfig(GunConfig config)
     {
         _config = config;
 

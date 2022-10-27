@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03c54e0fe8854f45a9b15ef4da6c1a4, type: 3}
+  m_Name: GunConfig_AssaultRifle
+  m_EditorClassIdentifier: 
+  GunName: AssaultRifle
+  DamagePoint: 20
+  MaxBackupAmmo: 120
+  MaxMagzineAmmo: 30
+  AmmoUsePerFire: 1
+  BulletType: 0
+  BulletProjectileName: 
+  BulletMaxDistance: 50
+  FireRoundsPerMinute: 600
+  ReloadSpeedMultiple: 1
+  IdleAnim:
+  - {fileID: 21300000, guid: e2fdf8f328b76d34dafd26e66491146c, type: 3}
+  FireAnim:
+  - {fileID: 21300000, guid: e2fdf8f328b76d34dafd26e66491146c, type: 3}
+  - {fileID: 21300000, guid: ddc8b34e7549552448ec634e72f07a8d, type: 3}
+  - {fileID: 21300000, guid: 130e04bb0b5c9ed4caea5966f06280ab, type: 3}
+  - {fileID: 21300000, guid: e2fdf8f328b76d34dafd26e66491146c, type: 3}
+  ReloadAnim: []
+  BoltAnim: []
+  FireMode: 0
+  NeedBolt: 0
+  BoltTime: 0

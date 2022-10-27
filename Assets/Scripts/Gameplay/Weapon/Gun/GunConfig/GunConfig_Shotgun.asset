@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03c54e0fe8854f45a9b15ef4da6c1a4, type: 3}
+  m_Name: GunConfig_Shotgun
+  m_EditorClassIdentifier: 
+  GunName: Shotgun
+  DamagePoint: 30
+  MaxBackupAmmo: 32
+  MaxMagzineAmmo: 8
+  AmmoUsePerFire: 1
+  BulletType: 0
+  BulletProjectileName: 
+  BulletMaxDistance: 10
+  FireRoundsPerMinute: 400
+  ReloadSpeedMultiple: 1
+  IdleAnim:
+  - {fileID: 21300000, guid: 81e7e9f91bd2fc84d9cbf5abb8e1ba9d, type: 3}
+  FireAnim:
+  - {fileID: 21300000, guid: 81e7e9f91bd2fc84d9cbf5abb8e1ba9d, type: 3}
+  - {fileID: 21300000, guid: 3675b2b4e2e577a4889f8fecca14f33b, type: 3}
+  - {fileID: 21300000, guid: ec223afea952dfe4ba559a8576b8711f, type: 3}
+  - {fileID: 21300000, guid: 03b96d48e8393064f8d5a56b0a32c27c, type: 3}
+  - {fileID: 21300000, guid: 81e7e9f91bd2fc84d9cbf5abb8e1ba9d, type: 3}
+  - {fileID: 21300000, guid: 81e7e9f91bd2fc84d9cbf5abb8e1ba9d, type: 3}
+  ReloadAnim: []
+  BoltAnim:
+  - {fileID: 21300000, guid: e28aad47bea84b04ea4a36421877cee3, type: 3}
+  - {fileID: 21300000, guid: a76d6623029bb474b80b9f0154548508, type: 3}
+  - {fileID: 21300000, guid: f920839fcdd18a74db8b8a7f73a2d57a, type: 3}
+  - {fileID: 21300000, guid: 84445e6d4d70e674cb1ec91112de7859, type: 3}
+  - {fileID: 21300000, guid: ec3db624f8066684b8310a32efca46ea, type: 3}
+  - {fileID: 21300000, guid: ff6cc2dbb2874d8459b7e3174efa1b25, type: 3}
+  - {fileID: 21300000, guid: 2ed34380a2028474f835286bd869c893, type: 3}
+  - {fileID: 21300000, guid: 49ea767677aaf774c93cdd1a5efc1d0c, type: 3}
+  - {fileID: 21300000, guid: 5624f372a10fe0a409cb0ee6d9f6c759, type: 3}
+  - {fileID: 21300000, guid: 5624f372a10fe0a409cb0ee6d9f6c759, type: 3}
+  - {fileID: 21300000, guid: b3209a25641056f44a7c73404ae2341f, type: 3}
+  - {fileID: 21300000, guid: ec3db624f8066684b8310a32efca46ea, type: 3}
+  - {fileID: 21300000, guid: 84445e6d4d70e674cb1ec91112de7859, type: 3}
+  - {fileID: 21300000, guid: f920839fcdd18a74db8b8a7f73a2d57a, type: 3}
+  - {fileID: 21300000, guid: a76d6623029bb474b80b9f0154548508, type: 3}
+  - {fileID: 21300000, guid: e28aad47bea84b04ea4a36421877cee3, type: 3}
+  FireMode: 1
+  NeedBolt: 1
+  BoltTime: 0.5
