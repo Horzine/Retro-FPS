@@ -14,7 +14,7 @@ namespace Framework
         public event Action FireActionPress;
         public event Action SecondaryFireAction;
         public event Action ReloadAction;
-        public event Action SwapWeaponAction;
+        public event Action<bool> SwapWeaponAction; // bool == true is "IsSwapNext"
 
         private void Update()
         {
@@ -68,9 +68,13 @@ namespace Framework
 
         private void HandleSwapWeaponInput()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                SwapWeaponAction?.Invoke();
+                SwapWeaponAction?.Invoke(true);
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                SwapWeaponAction?.Invoke(false);
             }
         }
 
