@@ -154,6 +154,20 @@ public class Gun : MonoBehaviour, IWeapon
         _data.DoReloadAmmunition();
     }
 
+    public void CancelReload()
+    {
+        if (_data.IsReloading)
+        {
+            TimerManager.Instance.CloseTimer(_doReloadTimer);
+            _data.CancelReload();
+            _doReloadTimer = default;
+        }
+        else
+        {
+            this.PrintError(nameof(CancelReload), "Why cancel reload? this gun not on reloading");
+        }
+    }
+
     public bool CanReload => _data.CanReload && !_isSwaping;
 
     public bool CanFire => _data.CanFire && Time.time >= _nextEnableFireTime && !_isSwaping;

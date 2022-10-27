@@ -48,7 +48,7 @@ namespace Framework
             }
             else
             {
-                throw new Exception($"All animations already has this name: {name}");
+                throw new Exception($"AllAnimations already has this name: {name}");
             }
         }
 

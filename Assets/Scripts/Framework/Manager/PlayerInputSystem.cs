@@ -22,9 +22,9 @@ namespace Framework
 
             HandleFireInput();
 
-            HandleReloadInput();
-
             HandleSwapWeaponInput();
+
+            HandleReloadInput();
 
             HandleMoveDirectionInput();
 

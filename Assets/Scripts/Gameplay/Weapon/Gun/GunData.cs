@@ -44,6 +44,18 @@ public class GunData
         }
     }
 
+    public void CancelReload()
+    {
+        if (IsReloading)
+        {
+            IsReloading = false;
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("GunData: Why cancel reload? this gun not on reloading");
+        }
+    }
+
     public bool CanFire => CurrentMagzineAmmo >= _config.AmmoUsePerFire && !IsReloading;
 
     public void Fire()
