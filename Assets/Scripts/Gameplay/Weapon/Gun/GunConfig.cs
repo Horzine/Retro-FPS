@@ -16,8 +16,11 @@ public class GunConfig : ScriptableObject
 
     public string GunName;
     public int DamagePoint;
-    public int MaxBackupAmmo;
+    public FireModeEnum FireMode;
+    public bool NeedBolt;
+    public float BoltTime;
     public int MaxMagzineAmmo;
+    public int MaxBackupAmmo;
     public int AmmoUsePerFire = 1;
     public BulletTypeEnum BulletType;
     public string BulletProjectileName;
@@ -28,9 +31,6 @@ public class GunConfig : ScriptableObject
     public Sprite[] FireAnim;
     public Sprite[] ReloadAnim;
     public Sprite[] BoltAnim;
-    public FireModeEnum FireMode;
-    public bool NeedBolt;
-    public float BoltTime;
 
     public float FireIntervalTime => 60 / FireRoundsPerMinute;
     public bool HasSelfReloadAnim => ReloadAnim != null && ReloadAnim.Length > 0;

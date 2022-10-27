@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunName: AssaultRifle
   DamagePoint: 20
-  MaxBackupAmmo: 120
+  FireMode: 0
+  NeedBolt: 0
+  BoltTime: 0
   MaxMagzineAmmo: 30
+  MaxBackupAmmo: 120
   AmmoUsePerFire: 1
   BulletType: 0
   BulletProjectileName: 
@@ -31,6 +34,3 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e2fdf8f328b76d34dafd26e66491146c, type: 3}
   ReloadAnim: []
   BoltAnim: []
-  FireMode: 0
-  NeedBolt: 0
-  BoltTime: 0

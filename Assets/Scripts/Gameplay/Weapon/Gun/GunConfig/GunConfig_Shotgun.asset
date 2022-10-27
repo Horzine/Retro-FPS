@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunName: Shotgun
   DamagePoint: 30
-  MaxBackupAmmo: 32
+  FireMode: 1
+  NeedBolt: 1
+  BoltTime: 0.5
   MaxMagzineAmmo: 8
+  MaxBackupAmmo: 32
   AmmoUsePerFire: 1
   BulletType: 0
   BulletProjectileName: 
@@ -49,6 +52,3 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f920839fcdd18a74db8b8a7f73a2d57a, type: 3}
   - {fileID: 21300000, guid: a76d6623029bb474b80b9f0154548508, type: 3}
   - {fileID: 21300000, guid: e28aad47bea84b04ea4a36421877cee3, type: 3}
-  FireMode: 1
-  NeedBolt: 1
-  BoltTime: 0.5

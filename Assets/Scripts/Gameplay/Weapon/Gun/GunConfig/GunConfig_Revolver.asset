@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: GunConfig_Revolver
   m_EditorClassIdentifier: 
   GunName: Revolver
-  DamagePoint: 10
-  MaxBackupAmmo: 36
+  DamagePoint: 15
+  FireMode: 1
+  NeedBolt: 0
+  BoltTime: 0
   MaxMagzineAmmo: 12
+  MaxBackupAmmo: 36
   AmmoUsePerFire: 1
   BulletType: 0
   BulletProjectileName: 
@@ -32,6 +35,3 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 878c5de9a38956c418575562a6567b2b, type: 3}
   ReloadAnim: []
   BoltAnim: []
-  FireMode: 1
-  NeedBolt: 0
-  BoltTime: 0

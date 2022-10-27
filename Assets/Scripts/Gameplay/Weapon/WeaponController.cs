@@ -96,6 +96,7 @@ public class WeaponController : MonoBehaviour
 
                     _swapOutTimer = TimerManager.Instance.Register(BasicSwapTime * 0.5f, () => { DoSwapWeapon(_currentWeapon, newWeapon); });
                     _animator.SetTrigger(AnimTrigger_Weapon_Swap);
+
                     break;
                 }
             }
