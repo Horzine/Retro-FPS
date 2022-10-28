@@ -13,14 +13,14 @@ namespace Framework
         private readonly List<(int timerId, bool loop)> _timerWillModifyLoop = new();
         private readonly SortedList<int, Timer> timers = new();
 
-        public int Register(float interval, Action triggerCallback, bool loop = false)
+        public void Register(ref int timerId, float interval, Action triggerCallback, bool loop = false)
         {
             var timer = CreateTimer();
             timer.Loop = loop;
             timer.ModifyInterval(interval);
             timer.TriggerCallback += triggerCallback;
             _timerWillAdd.Add(timer);
-            return timer.TimerId;
+            timerId = timer.TimerId;
         }
 
         public void ResetTimerTime(int timerId)
@@ -33,7 +33,7 @@ namespace Framework
             GetTimer(timerId)?.ForceTrigger();
         }
 
-        public void CloseTimer(int timerId, bool ShouldTrigger = false)
+        public void CloseTimer(ref int timerId, bool ShouldTrigger = false)
         {
             var timer = GetTimer(timerId);
             if (ShouldTrigger)
@@ -41,6 +41,7 @@ namespace Framework
                 timer?.InvokeTriggerCallback();
             }
             timer?.InvokeFinishCallback();
+            timerId = default;
         }
 
         public void SetTimerLoop(int timerId, bool loop)

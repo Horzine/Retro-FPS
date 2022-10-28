@@ -16,7 +16,7 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
     private const int DefaultMaxPoolCount = 20;
     private readonly Queue<T> _waitingQueue;
     private readonly Queue<T> _workingQueue;
-    private readonly int _recoverTimer = -1;
+    private int _recoverTimerId;
     private readonly int _maxPoolCount;
     private readonly float _recoverTime = 3;
     private readonly bool _autoDoRecover;
@@ -34,7 +34,7 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
         _waitingQueue = new(_maxPoolCount);
         if (_autoDoRecover)
         {
-            _recoverTimer = TimerManager.Instance.Register(_recoverTime, DoAutoRecover, true);
+            TimerManager.Instance.Register(ref _recoverTimerId, _recoverTime, DoAutoRecover, true);
         }
     }
 
@@ -42,7 +42,7 @@ public class GameObjectPool<T> where T : Component, IGameObjectPoolEntry
     {
         if (_autoDoRecover)
         {
-            TimerManager.Instance.CloseTimer(_recoverTimer);
+            TimerManager.Instance.CloseTimer(ref _recoverTimerId);
         }
     }
 

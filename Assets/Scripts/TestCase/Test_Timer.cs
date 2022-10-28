@@ -10,12 +10,12 @@ public class Test_Timer : MonoBehaviour
     private void Start()
     {
         Debug.Log("Start Time");
-        _timer_1 = TimerManager.Instance.Register(_inver_1, () => Callback(1), _loop_1);
+        TimerManager.Instance.Register(ref _timer_1, _inver_1, () => Callback(1), _loop_1);
     }
 
     private void Callback(int i)
     {
-       //  Debug.Log($"Callback {i}");
+        //  Debug.Log($"Callback {i}");
     }
 
     private void Update()
@@ -31,7 +31,7 @@ public class Test_Timer : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            TimerManager.Instance.CloseTimer(_timer_1, ShouldTrigger);
+            TimerManager.Instance.CloseTimer(ref _timer_1, ShouldTrigger);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {

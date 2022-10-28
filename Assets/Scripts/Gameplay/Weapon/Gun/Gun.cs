@@ -8,7 +8,7 @@ public class Gun : WeaponBase
     private SpriteAnimator _spriteAniamtion;
     private float _nextEnableFireTime;
     private Camera _mainCamera;
-    private int _doReloadTimer = -1;
+    private int _doReloadTimerId;
     private const string FireAnimName = nameof(GunConfig.FireAnim);
     private const string IdleAnimName = nameof(GunConfig.IdleAnim);
     private const string ReloadAnimName = nameof(GunConfig.ReloadAnim);
@@ -52,7 +52,7 @@ public class Gun : WeaponBase
         PlayerInputSystem.Instance.FireActionUp -= OnInputFireUpAction;
         PlayerInputSystem.Instance.FireActionPress -= OnInputFirePressAction;
 
-        TimerManager.Instance.CloseTimer(_doReloadTimer);
+        TimerManager.Instance.CloseTimer(ref _doReloadTimerId);
     }
 
     private void OnInputFireDownAction()
@@ -139,7 +139,7 @@ public class Gun : WeaponBase
         if (CanReload)
         {
             _data.BeginReload();
-            _doReloadTimer = TimerManager.Instance.Register(ReloadTime, DoReload);
+            TimerManager.Instance.Register(ref _doReloadTimerId, ReloadTime, DoReload);
             if (HasSelfReloadAnim)
             {
                 _spriteAniamtion.PlayAnimation(ReloadAnimName);
@@ -150,15 +150,13 @@ public class Gun : WeaponBase
     public void DoReload()
     {
         _data.DoReloadAmmunition();
-        _doReloadTimer = default;
     }
 
     public void CancelReload()
     {
         if (_data.IsReloading)
         {
-            TimerManager.Instance.CloseTimer(_doReloadTimer);
-            _doReloadTimer = default;
+            TimerManager.Instance.CloseTimer(ref _doReloadTimerId);
             _data.CancelReload();
         }
         else

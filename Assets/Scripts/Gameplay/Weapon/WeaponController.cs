@@ -13,8 +13,8 @@ public class WeaponController : MonoBehaviour
     private const string AnimTrigger_Weapon_Swap = "Weapon_Swap";
     public const float BasicReloadTime = 1;
     public const float BasicSwapTime = 1;
-    private int _swapInTimer;
-    private int _swapOutTimer;
+    private int _swapInTimerId;
+    private int _swapOutTimerId;
     private Transform _selfTsf;
 
     private void Awake()
@@ -55,8 +55,8 @@ public class WeaponController : MonoBehaviour
         PlayerInputSystem.Instance.ReloadAction -= OnInputReloadAction;
         PlayerInputSystem.Instance.SwapWeaponAction -= OnInputSwapWeaponAction;
 
-        TimerManager.Instance.CloseTimer(_swapInTimer);
-        TimerManager.Instance.CloseTimer(_swapOutTimer);
+        TimerManager.Instance.CloseTimer(ref _swapInTimerId);
+        TimerManager.Instance.CloseTimer(ref _swapOutTimerId);
     }
 
     private void OnInputReloadAction()
@@ -98,7 +98,7 @@ public class WeaponController : MonoBehaviour
                         newWeapon = _weaponList[newIndex];
                     }
 
-                    _swapOutTimer = TimerManager.Instance.Register(BasicSwapTime * 0.5f, () => { DoSwapWeapon(_currentWeapon, newWeapon); });
+                    TimerManager.Instance.Register(ref _swapOutTimerId, BasicSwapTime * 0.5f, () => { DoSwapWeapon(_currentWeapon, newWeapon); });
                     _animator.SetTrigger(AnimTrigger_Weapon_Swap);
 
                     break;
@@ -110,7 +110,7 @@ public class WeaponController : MonoBehaviour
     private void DoSwapWeapon(IWeapon oldWeapon, IWeapon newWeapon)
     {
         oldWeapon.OnSwapOutEnd();
-        _swapInTimer = TimerManager.Instance.Register(BasicSwapTime * 0.5f, newWeapon.OnSwapInEnd);
+        TimerManager.Instance.Register(ref _swapInTimerId, BasicSwapTime * 0.5f, newWeapon.OnSwapInEnd);
         newWeapon.OnSwapIn();
         _currentWeapon = newWeapon;
     }

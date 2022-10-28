@@ -20,7 +20,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
 {
     public abstract IWeapon.WeaponTypeEnum WeaponType { get; }
     public WeaponSystem.WeaponEnum WeaponEnum { get; set; }
-    public bool IsSwaping { get; set; }
+    public bool IsSwaping { get; private set; }
     public GameObject GameObject => gameObject;
 
     public virtual void OnSwapIn()
