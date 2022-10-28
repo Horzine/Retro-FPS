@@ -15,6 +15,8 @@ namespace Framework
 
         protected override void Awake()
         {
+            base.Awake();
+
             _bulletHoleTemplete = AssetsManager.Instance.LoadComponent<Applique>("Assets/Resources/Prefab/Applique/Applique_BulletHole.prefab");
             _appliquePool = new GameObjectPool<Applique>(_bulletHoleTemplete, transform);
         }

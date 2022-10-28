@@ -109,6 +109,5 @@ namespace UnityEditor
 
             serializedObject.ApplyModifiedProperties();
         }
-
     }
 }

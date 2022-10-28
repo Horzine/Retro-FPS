@@ -1,7 +1,7 @@
 using Framework;
 using UnityEngine;
 
-public class Gun : MonoBehaviour, IWeapon
+public class Gun : WeaponBase
 {
     [SerializeField] private GunConfig _config;
     private GunData _data;
@@ -177,35 +177,23 @@ public class Gun : MonoBehaviour, IWeapon
 
     private float ReloadTime => WeaponController.BasicReloadTime * _config.ReloadSpeedMultiple;
 
-    public IWeapon.WeaponTypeEnum WeaponType => IWeapon.WeaponTypeEnum.Gun;
+    public override IWeapon.WeaponTypeEnum WeaponType => IWeapon.WeaponTypeEnum.Gun;
 
-    public bool IsSwaping { get; set; }
-
-    public void OnSwapOut()
+    public override void OnSwapOut()
     {
-        IsSwaping = true;
+        base.OnSwapOut();
+
         if (_data.IsReloading)
         {
             CancelReload();
         }
     }
 
-    public void OnSwapOutEnd()
+    public override void OnSwapIn()
     {
-        this.SetGameObjectActive(false);
-        IsSwaping = false;
-    }
+        base.OnSwapIn();
 
-    public void OnSwapIn()
-    {
-        this.SetGameObjectActive(true);
         _spriteAniamtion.PlayAnimation(IdleAnimName);
-        IsSwaping = true;
-    }
-
-    public void OnSwapInEnd()
-    {
-        IsSwaping = false;
     }
 
     private void OnGUI()

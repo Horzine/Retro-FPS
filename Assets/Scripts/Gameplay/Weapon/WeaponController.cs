@@ -3,23 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public interface IWeapon
-{
-    enum WeaponTypeEnum
-    {
-        Gun = 0,
-        Melee = 1,
-    }
-    WeaponTypeEnum WeaponType { get; }
-    bool IsSwaping { get; set; }
-    void OnSwapOutEnd();
-    void OnSwapIn();
-    void OnSwapOut();
-    void OnSwapInEnd();
-}
+
 public class WeaponController : MonoBehaviour
 {
-    public List<Gun> _guns;
     private IWeapon _currentWeapon;
     private List<IWeapon> _weaponList;
     private Animator _animator;
@@ -29,9 +15,11 @@ public class WeaponController : MonoBehaviour
     public const float BasicSwapTime = 1;
     private int _swapInTimer;
     private int _swapOutTimer;
+    private Transform _selfTsf;
 
     private void Awake()
     {
+        _selfTsf = transform;
         _animator = GetComponent<Animator>();
     }
 
@@ -40,10 +28,26 @@ public class WeaponController : MonoBehaviour
         PlayerInputSystem.Instance.ReloadAction += OnInputReloadAction;
         PlayerInputSystem.Instance.SwapWeaponAction += OnInputSwapWeaponAction;
 
-        _weaponList = new List<IWeapon>(_guns);
-        _currentWeapon = _weaponList.First();
-        _currentWeapon.OnSwapIn();
-        _currentWeapon.OnSwapInEnd();
+        InitWeaponList();
+
+        _currentWeapon = _weaponList.FirstOrDefault();
+        _currentWeapon?.OnSwapIn();
+        _currentWeapon?.OnSwapInEnd();
+    }
+
+    private void InitWeaponList()
+    {
+        _weaponList = new List<IWeapon>(WeaponSystem.Instance.TotalWeaponEnumCount);
+        WeaponSystem.Instance.InitWeaponList(new List<WeaponSystem.WeaponEnum> {
+            WeaponSystem.WeaponEnum.Revolver,
+            WeaponSystem.WeaponEnum.AssaultRifle,
+            WeaponSystem.WeaponEnum.Shotgun }
+        , ref _weaponList);
+        foreach (var item in _weaponList)
+        {
+            item?.GameObject.transform.SetParent(_selfTsf, false);
+            item?.GameObject.SetActive(false);
+        }
     }
 
     private void OnDestroy()
