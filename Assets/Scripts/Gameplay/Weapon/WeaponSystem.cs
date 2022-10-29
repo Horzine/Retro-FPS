@@ -18,6 +18,7 @@ public class WeaponSystem : MonoSingleton<WeaponSystem>
     protected override void Awake()
     {
         base.Awake();
+
         _weaponDic = new(TotalWeaponEnumCount);
     }
 
@@ -70,7 +71,6 @@ public class WeaponSystem : MonoSingleton<WeaponSystem>
         _weaponDic.TryGetValue((int)weaponEnum, out var weapon);
         return weapon;
     }
-
 
     private class WeaponFactory
     {
