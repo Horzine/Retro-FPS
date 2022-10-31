@@ -3,3 +3,4 @@ Hand Inertia 效果: 为什么子 融合树的 Y轴 没办法叠加 上去， �
 Time.time 收到暂停影响吗？ 
 SpriteAnimation :  非协程 的高性能解决方案
 WeaponSystem: 测试
+PlayerController 接到Input时间, 再分发给 hand 和 weapon, 因为要做需求是 打开菜单之后屏蔽 gameplay 输入
