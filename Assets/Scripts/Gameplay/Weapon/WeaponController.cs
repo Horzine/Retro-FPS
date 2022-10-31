@@ -1,8 +1,8 @@
 using Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 
 public class WeaponController : MonoBehaviour
 {
@@ -25,9 +25,6 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
-        PlayerInputSystem.Instance.ReloadAction += OnInputReloadAction;
-        PlayerInputSystem.Instance.SwapWeaponAction += OnInputSwapWeaponAction;
-
         InitWeaponList();
 
         _currentWeapon = _weaponList.FirstOrDefault();
@@ -52,20 +49,17 @@ public class WeaponController : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerInputSystem.Instance.ReloadAction -= OnInputReloadAction;
-        PlayerInputSystem.Instance.SwapWeaponAction -= OnInputSwapWeaponAction;
-
         TimerManager.Instance.CloseTimer(ref _swapInTimerId);
         TimerManager.Instance.CloseTimer(ref _swapOutTimerId);
     }
 
-    private void OnInputReloadAction()
+    public void OnInputReloadAction()
     {
         if (_currentWeapon.WeaponType == IWeapon.WeaponTypeEnum.Gun && _currentWeapon is Gun gun)
         {
             if (gun.CanReload)
             {
-                gun.BeginReload();
+                gun.OnInputReloadAction();
                 if (!gun.HasSelfReloadAnim)
                 {
                     _animator.SetTrigger(AnimTrigger_Weapon_Reload);
@@ -74,7 +68,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    private void OnInputSwapWeaponAction(bool isSwapNext)
+    public void OnInputSwapWeaponAction(bool isSwapNext)
     {
         if (_weaponList.Count > 1 && !_currentWeapon.IsSwaping)
         {
@@ -107,6 +101,21 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    public void OnInputFirePressAction()
+    {
+        _currentWeapon?.OnInputFireActionPress();
+    }
+
+    public void OnInputFireUpAction()
+    {
+        _currentWeapon?.OnInputFireActionUp();
+    }
+
+    public void OnInputFireDownAction()
+    {
+        _currentWeapon?.OnInputFireActionDown();
+    }
+
     private void DoSwapWeapon(IWeapon oldWeapon, IWeapon newWeapon)
     {
         oldWeapon.OnSwapOutEnd();
@@ -115,15 +124,8 @@ public class WeaponController : MonoBehaviour
         _currentWeapon = newWeapon;
     }
 
-    private void HandleMovementInput()
+    public void HandleMovementInput(Vector2 direction)
     {
-        var dir = PlayerInputSystem.Instance.MovementDirection;
-        _animator.SetLayerWeight(1, Mathf.Min(dir.sqrMagnitude, 1));
+        _animator.SetLayerWeight(1, Mathf.Min(direction.sqrMagnitude, 1));
     }
-
-    private void Update()
-    {
-        HandleMovementInput();
-    }
-
 }

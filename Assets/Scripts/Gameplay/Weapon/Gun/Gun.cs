@@ -39,23 +39,15 @@ public class Gun : WeaponBase
 
     private void OnEnable()
     {
-        PlayerInputSystem.Instance.FireActionDown += OnInputFireDownAction;
-        PlayerInputSystem.Instance.FireActionUp += OnInputFireUpAction;
-        PlayerInputSystem.Instance.FireActionPress += OnInputFirePressAction;
-
         _spriteAniamtion.PlayAnimation(IdleAnimName);
     }
 
     private void OnDisable()
     {
-        PlayerInputSystem.Instance.FireActionDown -= OnInputFireDownAction;
-        PlayerInputSystem.Instance.FireActionUp -= OnInputFireUpAction;
-        PlayerInputSystem.Instance.FireActionPress -= OnInputFirePressAction;
-
         TimerManager.Instance.CloseTimer(ref _doReloadTimerId);
     }
 
-    private void OnInputFireDownAction()
+    public override void OnInputFireActionDown()
     {
         if (_config.FireMode == GunConfig.FireModeEnum.SemiAuto && CanFire)
         {
@@ -63,9 +55,9 @@ public class Gun : WeaponBase
         }
     }
 
-    private void OnInputFireUpAction() { }
+    public override void OnInputFireActionUp() { }
 
-    private void OnInputFirePressAction()
+    public override void OnInputFireActionPress()
     {
         if (_config.FireMode == GunConfig.FireModeEnum.FullAuto && CanFire)
         {
@@ -134,7 +126,7 @@ public class Gun : WeaponBase
         }
     }
 
-    public void BeginReload()
+    public override void OnInputReloadAction()
     {
         if (CanReload)
         {
@@ -201,4 +193,6 @@ public class Gun : WeaponBase
         GUI.Label(new Rect(10, 60, 300, 20), $"Can Fire: {CanFire}");
         GUI.Label(new Rect(10, 90, 300, 20), $"Can Reload: {CanReload}");
     }
+
+    public override void OnInputSecondaryFireAction() { }
 }

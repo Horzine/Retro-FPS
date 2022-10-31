@@ -254,6 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c82bca441dd44488264958d5a12d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HandController: {fileID: 387752057}
+  WeaponController: {fileID: 2020591976}
   PlayerCameraTsf: {fileID: 98262215}
   Speed: 3
 --- !u!1 &387752054

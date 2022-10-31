@@ -14,6 +14,10 @@ public interface IWeapon
     void OnSwapIn();
     void OnSwapOut();
     void OnSwapInEnd();
+    void OnInputFireActionDown();
+    void OnInputFireActionUp();
+    void OnInputFireActionPress();
+    void OnInputSecondaryFireAction();
     GameObject GameObject { get; }
 }
 public abstract class WeaponBase : MonoBehaviour, IWeapon
@@ -22,6 +26,12 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
     public WeaponSystem.WeaponEnum WeaponEnum { get; set; }
     public bool IsSwaping { get; private set; }
     public GameObject GameObject => gameObject;
+
+    public abstract void OnInputFireActionDown();
+    public abstract void OnInputFireActionPress();
+    public abstract void OnInputFireActionUp();
+    public abstract void OnInputReloadAction();
+    public abstract void OnInputSecondaryFireAction();
 
     public virtual void OnSwapIn()
     {

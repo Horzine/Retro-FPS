@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerHandController HandController;
+    public WeaponController WeaponController;
     public Transform PlayerCameraTsf;
     public float Speed;
     private Transform _selfTsf;
@@ -20,6 +22,24 @@ public class PlayerController : MonoBehaviour
         PlayerCameraTsf.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
+    private void OnEnable()
+    {
+        PlayerInputSystem.Instance.ReloadAction += OnInputReloadAction;
+        PlayerInputSystem.Instance.SwapWeaponAction += OnInputSwapWeaponAction;
+        PlayerInputSystem.Instance.FireActionDown += OnInputFireDownAction;
+        PlayerInputSystem.Instance.FireActionUp += OnInputFireUpAction;
+        PlayerInputSystem.Instance.FireActionPress += OnInputFirePressAction;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInputSystem.Instance.ReloadAction -= OnInputReloadAction;
+        PlayerInputSystem.Instance.SwapWeaponAction -= OnInputSwapWeaponAction;
+        PlayerInputSystem.Instance.FireActionDown -= OnInputFireDownAction;
+        PlayerInputSystem.Instance.FireActionUp -= OnInputFireUpAction;
+        PlayerInputSystem.Instance.FireActionPress -= OnInputFirePressAction;
+    }
+
     private void Update()
     {
         HandleMovementInput();
@@ -29,14 +49,47 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovementInput()
     {
-        var dir = Speed * Time.deltaTime * PlayerInputSystem.Instance.MovementDirection;
+        var inputDir = PlayerInputSystem.Instance.MovementDirection;
+        var dir = Speed * Time.deltaTime * inputDir;
         _selfTsf.Translate(new Vector3(dir.x, 0, dir.y), Space.Self);
+
+        WeaponController.HandleMovementInput(inputDir);
     }
+
     public void HandleMouseAxisInput()
     {
-        _cameraRotation = Mathf.Clamp(_cameraRotation - PlayerInputSystem.Instance.MouseAxisY, -90, 90);
+        var axisX = PlayerInputSystem.Instance.MouseAxisX;
+        var axisY = PlayerInputSystem.Instance.MouseAxisY;
+        _cameraRotation = Mathf.Clamp(_cameraRotation - axisY, -90, 90);
         PlayerCameraTsf.localRotation = Quaternion.Euler(_cameraRotation, 0, 0);
 
-        _selfTsf.Rotate(new Vector3(0, PlayerInputSystem.Instance.MouseAxisX, 0), Space.Self);
+        _selfTsf.Rotate(new Vector3(0, axisX, 0), Space.Self);
+
+        HandController.HandlePlayerInputMouseAxis(axisX, axisY);
+    }
+
+    private void OnInputReloadAction()
+    {
+        WeaponController.OnInputReloadAction();
+    }
+
+    private void OnInputSwapWeaponAction(bool isSwapNext)
+    {
+        WeaponController.OnInputSwapWeaponAction(isSwapNext);
+    }
+
+    private void OnInputFireDownAction()
+    {
+        WeaponController.OnInputFireDownAction();
+    }
+
+    private void OnInputFireUpAction()
+    {
+        WeaponController.OnInputFireUpAction();
+    }
+
+    private void OnInputFirePressAction()
+    {
+        WeaponController.OnInputFirePressAction();
     }
 }
