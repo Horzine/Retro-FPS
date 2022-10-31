@@ -30,7 +30,6 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
     public abstract void OnInputFireActionDown();
     public abstract void OnInputFireActionPress();
     public abstract void OnInputFireActionUp();
-    public abstract void OnInputReloadAction();
     public abstract void OnInputSecondaryFireAction();
 
     public virtual void OnSwapIn()
@@ -38,20 +37,19 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         this.SetGameObjectActive(true);
         IsSwaping = true;
     }
-
     public virtual void OnSwapInEnd()
     {
         IsSwaping = false;
     }
-
     public virtual void OnSwapOut()
     {
         IsSwaping = true;
     }
-
     public virtual void OnSwapOutEnd()
     {
         this.SetGameObjectActive(false);
         IsSwaping = false;
     }
+
+    public abstract void OnInputReloadAction();
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private bool EnablePlayerGameplayInput;
     public PlayerHandController HandController;
     public WeaponController WeaponController;
     public Transform PlayerCameraTsf;
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _selfTsf = transform;
+        EnablePlayerGameplayInput = true;
     }
 
     private void Start()
@@ -42,9 +44,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        HandleMovementInput();
+        if (EnablePlayerGameplayInput)
+        {
+            HandleMovementInput();
 
-        HandleMouseAxisInput();
+            HandleMouseAxisInput();
+        }
     }
 
     private void HandleMovementInput()
@@ -70,26 +75,41 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputReloadAction()
     {
-        WeaponController.OnInputReloadAction();
+        if (EnablePlayerGameplayInput)
+        {
+            WeaponController.OnInputReloadAction();
+        }
     }
 
     private void OnInputSwapWeaponAction(bool isSwapNext)
     {
-        WeaponController.OnInputSwapWeaponAction(isSwapNext);
+        if (EnablePlayerGameplayInput)
+        {
+            WeaponController.OnInputSwapWeaponAction(isSwapNext);
+        }
     }
 
     private void OnInputFireDownAction()
     {
-        WeaponController.OnInputFireDownAction();
+        if (EnablePlayerGameplayInput)
+        {
+            WeaponController.OnInputFireDownAction();
+        }
     }
 
     private void OnInputFireUpAction()
     {
-        WeaponController.OnInputFireUpAction();
+        if (EnablePlayerGameplayInput)
+        {
+            WeaponController.OnInputFireUpAction();
+        }
     }
 
     private void OnInputFirePressAction()
     {
-        WeaponController.OnInputFirePressAction();
+        if (EnablePlayerGameplayInput)
+        {
+            WeaponController.OnInputFirePressAction();
+        }
     }
 }
