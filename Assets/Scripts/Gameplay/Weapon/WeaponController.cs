@@ -1,5 +1,4 @@
 using Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -77,19 +76,15 @@ public class WeaponController : MonoBehaviour
                 if (_weaponList[i] == _currentWeapon)
                 {
                     _currentWeapon.OnSwapOut();
-                    var newIndex = i + (isSwapNext ? 1 : -1);
+                    int newIndex = i + (isSwapNext ? 1 : -1);
                     IWeapon newWeapon = null;
                     if (newIndex < 0)
                     {
                         newWeapon = _weaponList.Last();
                     }
-                    else if (newIndex >= _weaponList.Count)
-                    {
-                        newWeapon = _weaponList.First();
-                    }
                     else
                     {
-                        newWeapon = _weaponList[newIndex];
+                        newWeapon = newIndex >= _weaponList.Count ? _weaponList.First() : _weaponList[newIndex];
                     }
 
                     TimerManager.Instance.Register(ref _swapOutTimerId, BasicSwapTime * 0.5f, () => { DoSwapWeapon(_currentWeapon, newWeapon); });
@@ -101,20 +96,11 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void OnInputFirePressAction()
-    {
-        _currentWeapon?.OnInputFireActionPress();
-    }
+    public void OnInputFirePressAction() => _currentWeapon?.OnInputFireActionPress();
 
-    public void OnInputFireUpAction()
-    {
-        _currentWeapon?.OnInputFireActionUp();
-    }
+    public void OnInputFireUpAction() => _currentWeapon?.OnInputFireActionUp();
 
-    public void OnInputFireDownAction()
-    {
-        _currentWeapon?.OnInputFireActionDown();
-    }
+    public void OnInputFireDownAction() => _currentWeapon?.OnInputFireActionDown();
 
     private void DoSwapWeapon(IWeapon oldWeapon, IWeapon newWeapon)
     {
@@ -124,8 +110,5 @@ public class WeaponController : MonoBehaviour
         _currentWeapon = newWeapon;
     }
 
-    public void HandleMovementInput(Vector2 direction)
-    {
-        _animator.SetLayerWeight(1, Mathf.Min(direction.sqrMagnitude, 1));
-    }
+    public void HandleMovementInput(Vector2 direction) => _animator.SetLayerWeight(1, Mathf.Min(direction.sqrMagnitude, 1));
 }
